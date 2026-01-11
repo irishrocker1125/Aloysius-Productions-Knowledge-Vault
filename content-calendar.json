@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "description": "Content calendar for blog posts",
+    "last_updated": "2026-01-11",
+    "statuses": ["idea", "draft", "review", "scheduled", "published", "archived"]
+  },
+  "posts": [
+    {
+      "id": "example-001",
+      "slug": "example-first-post",
+      "title": "Example: Your First Post Title",
+      "status": "idea",
+      "created": "2026-01-11",
+      "modified": "2026-01-11",
+      "scheduled": null,
+      "published": null,
+      "wordpress_id": null,
+      "wordpress_url": null,
+      "file_path": null,
+      "tags": ["example", "getting-started"],
+      "categories": ["Uncategorized"],
+      "seo": {
+        "description": "",
+        "keywords": []
+      },
+      "notes": "This is an example entry. Delete when you add your first real post."
+    }
+  ],
+  "ideas_backlog": [
+    {
+      "title": "Potential post idea",
+      "added": "2026-01-11",
+      "priority": "low",
+      "notes": "Quick notes about the idea"
+    }
+  ],
+  "series": [
+    {
+      "name": "Example Series",
+      "description": "A multi-part series on a topic",
+      "posts": [],
+      "status": "planning"
+    }
+  ]
+}
