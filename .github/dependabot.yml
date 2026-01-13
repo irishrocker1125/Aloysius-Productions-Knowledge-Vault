@@ -1,0 +1,18 @@
+# Dependabot Configuration - Automated dependency updates
+# Documentation project - only GitHub Actions ecosystem
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automated"
+    commit-message:
+      prefix: "chore(actions):"
+    open-pull-requests-limit: 3

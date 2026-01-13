@@ -1,0 +1,20 @@
+# Security Check - Calls centralized Security Sentinel workflow
+#
+# Runs on push and pull request to scan for:
+# - Hardcoded secrets (TruffleHog)
+# - Vulnerable dependencies (Trivy)
+# - Insecure code patterns (Semgrep)
+#
+# All checks are warn-only (non-blocking)
+
+name: Security Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security:
+    uses: irishrocker1125/aloysiusproductions-ops-core/.github/workflows/security-sentinel.yml@main
