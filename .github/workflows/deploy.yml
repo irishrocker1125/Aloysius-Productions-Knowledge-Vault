@@ -1,6 +1,7 @@
 # Deploy Quartz to GitHub Pages
 #
 # Builds the Quartz static site and deploys to GitHub Pages.
+# SECURITY: Deployment is blocked if security checks fail.
 # Triggered on push to master or manual dispatch.
 
 name: Deploy to GitHub Pages
@@ -22,7 +23,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Security gate - MUST pass before build/deploy
+  security-gate:
+    name: Security Gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@v3.88.0
+        with:
+          path: ./
+          extra_args: --only-verified
+
+      - name: Run Content Security Scan
+        run: |
+          echo "Scanning for sensitive patterns in content..."
+
+          FAILED=false
+
+          # API Keys and Tokens
+          if grep -rPn 'sk-[a-zA-Z0-9]{48}' obsidian/ --include="*.md" 2>/dev/null | grep -v 'xxx\|placeholder\|example\|YOUR'; then
+            echo "::error::OpenAI API key pattern detected"
+            FAILED=true
+          fi
+
+          if grep -rPn 'sk-ant-[a-zA-Z0-9-]{40,}' obsidian/ --include="*.md" 2>/dev/null | grep -v 'xxx\|placeholder\|example\|YOUR'; then
+            echo "::error::Anthropic API key pattern detected"
+            FAILED=true
+          fi
+
+          if grep -rPn 'ghp_[a-zA-Z0-9]{36}' obsidian/ --include="*.md" 2>/dev/null | grep -v 'xxx\|placeholder\|example\|YOUR'; then
+            echo "::error::GitHub PAT pattern detected"
+            FAILED=true
+          fi
+
+          if grep -rPn 'AKIA[0-9A-Z]{16}' obsidian/ --include="*.md" 2>/dev/null | grep -v 'xxx\|placeholder\|example\|YOUR'; then
+            echo "::error::AWS Access Key pattern detected"
+            FAILED=true
+          fi
+
+          # Private URLs
+          if grep -rPn 'https?://(192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)' obsidian/ --include="*.md" 2>/dev/null; then
+            echo "::error::Private network URL detected"
+            FAILED=true
+          fi
+
+          # Inline credentials
+          if grep -rPn '(?i)password\s*[:=]\s*["\x27][^"\x27]{8,}["\x27]' obsidian/ --include="*.md" 2>/dev/null | grep -v 'xxx\|placeholder\|example\|YOUR'; then
+            echo "::error::Inline password detected"
+            FAILED=true
+          fi
+
+          if [ "$FAILED" = true ]; then
+            echo "::error::Security scan failed - sensitive content detected"
+            exit 1
+          fi
+
+          echo "Content security scan passed"
+
   build:
+    needs: security-gate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

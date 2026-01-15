@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+# Run lint-staged for content security scan
+npx lint-staged
+
+# Run gitleaks on staged changes if available
+if command -v gitleaks > /dev/null 2>&1; then
+  gitleaks protect --staged --config .gitleaks.toml
+fi

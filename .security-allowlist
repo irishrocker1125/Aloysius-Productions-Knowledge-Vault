@@ -1,0 +1,18 @@
+# Security Allowlist for Knowledge Vault
+# Lines containing these patterns will be skipped during security scans
+# Format: one pattern per line, # for comments
+
+# Example API keys in documentation
+sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+your-api-key-here
+<API_KEY>
+<YOUR_TOKEN>
+API_KEY_PLACEHOLDER
+EXAMPLE_SECRET
+
+# Internal documentation references (safe)
+example.com
+localhost (in code examples)
+
+# Specific known-safe content hashes or IDs
+# Add specific commit hashes, file checksums, or IDs here if they trigger false positives
