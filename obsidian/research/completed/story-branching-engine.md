@@ -1,0 +1,34 @@
+---
+title: "Story branching engine"
+created: 2026-01-16
+updated: 2026-01-16
+type: research
+status: completed
+outcome: success
+project: Quest-Forge
+source: ops-core-sync
+tags:
+  - research
+  - poc
+  - synced
+---
+
+# Story branching engine
+
+## Overview
+
+- **Project**: Quest-Forge
+- **Status**: Completed
+- **Result**: Success
+
+## Artifacts
+
+StoryEngine.swift
+
+## Reusability
+
+**Reusable**: Yes
+
+## Source
+
+Synced from ops-core learning data. See [[projects/ios/quest-forge|Quest-Forge]] for full context.

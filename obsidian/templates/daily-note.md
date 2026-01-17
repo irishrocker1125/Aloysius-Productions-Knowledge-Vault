@@ -3,26 +3,20 @@ title: "{{date:YYYY-MM-DD}}"
 date: {{date}}
 tags:
   - daily
-draft: true
+  - {{date:YYYY-MM}}
 ---
 
 # {{date:dddd, MMMM D, YYYY}}
 
-## Focus
-
-- [ ]
-
 ## Learnings
 
-What did I learn today?
+## Decisions Made
+
+## Pattern Candidates
+
+## Ideas
 
 ## Notes
-
-Quick capture - process later.
-
-## Links
-
--
 
 ---
 

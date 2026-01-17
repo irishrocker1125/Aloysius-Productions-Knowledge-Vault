@@ -1,0 +1,153 @@
+{
+  "last_sync": "2026-01-16T18:59:50.750401-05:00",
+  "synced_files": {
+    "patterns/python/environment-aware-scripts-with-graceful-degradation.md": {
+      "hash": "e66ebffce600",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/python/threshold-based-resource-alerting.md": {
+      "hash": "79640e59489d",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/fetch-scripts.md": {
+      "hash": "7122025f8819",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/localstorage-validation.md": {
+      "hash": "5330e764dfcf",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/minimal-interface-types.md": {
+      "hash": "934671efb328",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/esm-module-separation.md": {
+      "hash": "7351d5103951",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/pattern-matcher-with-capture-groups.md": {
+      "hash": "21a8535d0146",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/conversation-state-machine.md": {
+      "hash": "a70aa231679a",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/repl-interface-pattern.md": {
+      "hash": "4de89d324ae2",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/topic-memory-pattern.md": {
+      "hash": "02e8cf893285",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/swift/audioservice-singleton.md": {
+      "hash": "16d1ac29a7ee",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/soundgenerator-with-presets.md": {
+      "hash": "767bd3480471",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/useaudio-hook.md": {
+      "hash": "a2daee35ee06",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/usekeyboard-hook.md": {
+      "hash": "20a55916548c",
+      "last_modified": "2026-01-16"
+    },
+    "patterns/typescript/css-co-location.md": {
+      "hash": "83209fd2d346",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/dashboard-aggregation-debugging.md": {
+      "hash": "3bbc010f6997",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/missing-gitmodules-investigation.md": {
+      "hash": "c27cd8124811",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/pattern-matching-engine.md": {
+      "hash": "fe05e045879f",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/capture-group-substitution.md": {
+      "hash": "146a0132029c",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/topic-memory-tracking.md": {
+      "hash": "bdd7bf71037c",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/response-cycling.md": {
+      "hash": "b5a6f87914e0",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/plain-text-game-code-sync.md": {
+      "hash": "f88141567543",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/feature-stripping-approach.md": {
+      "hash": "c08580b91514",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/web-audio-oscillator-synthesis.md": {
+      "hash": "53d681a3bd45",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/adsr-envelope-implementation.md": {
+      "hash": "db772b29cff0",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/keyboard-event-handling.md": {
+      "hash": "3ee856322fe8",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/hand-evaluation-algorithm.md": {
+      "hash": "b3f1ab54f4f8",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/ai-decision-engine.md": {
+      "hash": "614ae72b5426",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/story-branching-engine.md": {
+      "hash": "6a0dfc275f15",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/scene-transition-system.md": {
+      "hash": "b8416004c294",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/text-animation-typewriter.md": {
+      "hash": "97b47eee6c44",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/character-choice-filtering.md": {
+      "hash": "59545e3ae4c1",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/word-bank-generation.md": {
+      "hash": "4ebce8a41fae",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/template-system.md": {
+      "hash": "d3c13d5f5109",
+      "last_modified": "2026-01-16"
+    },
+    "research/completed/creative-mode-mix-and-match.md": {
+      "hash": "222b568fbda5",
+      "last_modified": "2026-01-16"
+    },
+    "organization/synced/technical-debt.md": {
+      "hash": "2be1f0957432",
+      "last_modified": "2026-01-16"
+    },
+    "organization/synced/velocity-insights.md": {
+      "hash": "03133d6712e0",
+      "last_modified": "2026-01-16"
+    }
+  }
+}
