@@ -1,5 +1,5 @@
 {
-  "last_sync": "2026-01-16T18:59:50.750401-05:00",
+  "last_sync": "2026-01-16T21:59:30.036704-05:00",
   "synced_files": {
     "patterns/python/environment-aware-scripts-with-graceful-degradation.md": {
       "hash": "e66ebffce600",
@@ -147,6 +147,14 @@
     },
     "organization/synced/velocity-insights.md": {
       "hash": "03133d6712e0",
+      "last_modified": "2026-01-16"
+    },
+    "research/active/real-time-adsr-visualization.md": {
+      "hash": "29f3407916dc",
+      "last_modified": "2026-01-16"
+    },
+    "research/active/settings-persistence-patterns.md": {
+      "hash": "d0fb9b792da6",
       "last_modified": "2026-01-16"
     }
   }
