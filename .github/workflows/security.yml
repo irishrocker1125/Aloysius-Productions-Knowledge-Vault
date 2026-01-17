@@ -15,6 +15,17 @@ on:
   pull_request:
     branches: [master]
 
+# Permissions required for security scanning
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 jobs:
   security:
     uses: irishrocker1125/aloysiusproductions-ops-core/.github/workflows/security-sentinel.yml@main
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    secrets: inherit
