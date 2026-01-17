@@ -45,14 +45,14 @@ Consistent code organization within files:
 
 ## Naming Conventions
 
-| Type | Convention | Examples |
-|------|------------|----------|
-| Classes/Structs | PascalCase, noun | `GameState`, `StoryTemplate`, `WordBank` |
-| Protocols | PascalCase, -able/-ible | `Identifiable`, `Hashable`, `Codable` |
-| Enums | PascalCase | `BettingRound`, `HandRank`, `WordType` |
-| Properties | camelCase, noun | `currentPlayer`, `isHandInProgress` |
-| Methods | camelCase, verb | `startNewHand()`, `processAction()` |
-| Computed | camelCase, descriptive | `canAct`, `satisfiesRequirements` |
+| Type            | Convention              | Examples                                 |
+| --------------- | ----------------------- | ---------------------------------------- |
+| Classes/Structs | PascalCase, noun        | `GameState`, `StoryTemplate`, `WordBank` |
+| Protocols       | PascalCase, -able/-ible | `Identifiable`, `Hashable`, `Codable`    |
+| Enums           | PascalCase              | `BettingRound`, `HandRank`, `WordType`   |
+| Properties      | camelCase, noun         | `currentPlayer`, `isHandInProgress`      |
+| Methods         | camelCase, verb         | `startNewHand()`, `processAction()`      |
+| Computed        | camelCase, descriptive  | `canAct`, `satisfiesRequirements`        |
 
 ## Type Safety Patterns
 
@@ -84,6 +84,7 @@ enum StorySegment: Codable, Hashable {
 ### Protocol Conformance
 
 Standard conformances for model types:
+
 - `Identifiable` - SwiftUI list support
 - `Hashable` - Set membership, dictionary keys
 - `Codable` - Persistence
@@ -133,6 +134,7 @@ struct ScaleButtonStyle: ButtonStyle {
 ### Consistent Animation
 
 Standard spring animation across projects:
+
 - Response: 0.3 seconds
 - Damping: 0.7
 

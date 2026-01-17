@@ -15,6 +15,7 @@ Usage patterns for the Gregorian Agentic System (GAS) across testkitchen project
 ## Overview
 
 GAS is the planning and execution framework used across all testkitchen projects. It provides:
+
 - Structured project documentation
 - Phase-based milestone delivery
 - State tracking and velocity metrics
@@ -59,56 +60,68 @@ Every GAS-enabled project has:
 # Project Name
 
 ## What This Is
+
 [1-2 sentence description]
 
 ## Core Value
+
 [User-facing benefit]
 
 ## Requirements
 
 ### Validated ✓
+
 - [Completed requirements]
 
 ### Active
+
 - [In-progress requirements]
 
 ### Out of Scope
+
 - [Explicitly excluded]
 
 ## Context
+
 - **Status:** [Active | Complete | Foundation]
 - **LOC:** [Lines of code]
 - **Stack:** [Technologies]
 
 ## Constraints
+
 - Platform: [iOS, Web, etc.]
 - Framework: [SwiftUI, React, etc.]
 - Storage: [UserDefaults, localStorage, etc.]
 
 ## Key Decisions
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| [Choice] | [Why] | [Result] |
+
+| Decision | Rationale | Outcome  |
+| -------- | --------- | -------- |
+| [Choice] | [Why]     | [Result] |
 ```
 
 ### STATE.md
 
 ```markdown
 ## Current Position
+
 - Phase: N of M (phase-name)
 - Plan: X of Y in current phase
 - Status: [Ready to plan | In progress | Complete]
 - Last activity: [date] — [what was done]
 
 ## Progress
+
 [Visual progress indicator]
 
 ## Performance Metrics
+
 - Total plans completed: N
 - Average duration: X min
 - Recent velocity: [last 5 plans]
 
 ## Accumulated Context
+
 - Key decisions affecting current work
 - Deferred issues
 - Session continuity notes
@@ -120,7 +133,7 @@ Every GAS-enabled project has:
 ---
 phase: 01-foundation
 plan: 01
-type: tdd  # or: execute, research
+type: tdd # or: execute, research
 ---
 ```
 
@@ -145,8 +158,9 @@ type: tdd  # or: execute, research
 </verification>
 
 <success_criteria>
+
 - [Specific, measurable criteria]
-</success_criteria>
+  </success_criteria>
 
 <output>
 [Location of deliverables]
@@ -167,23 +181,29 @@ files_modified: 3
 
 ```markdown
 ## Dependency Graph
+
 [What this phase needed from prior work]
 
 ## Tech Stack
+
 - Added: [New technologies/patterns]
 - Files: [New/modified files]
 
 ## Key Decisions
+
 | Decision | Rationale |
-|----------|-----------|
+| -------- | --------- |
 
 ## Issues & Deviations
+
 - [Differences from plan, auto-fixed bugs]
 
 ## Deferred
+
 - [Out-of-scope items discovered]
 
 ## Next Phase Readiness
+
 - [Checklist for proceeding]
 ```
 
@@ -212,6 +232,7 @@ NN-descriptive-name/
 ```
 
 Examples:
+
 - `01-hand-evaluation/`
 - `02-game-flow/`
 - `03-ai-players/`
@@ -220,6 +241,7 @@ Examples:
 ### Decimal Phases for Inserted Work
 
 When urgent work needs to be inserted between phases:
+
 - Use decimal notation: `03.1-hotfix/`
 - Maintains original phase numbering
 - Clear audit trail
@@ -230,13 +252,13 @@ When urgent work needs to be inserted between phases:
 
 From testkitchen analysis:
 
-| Factor | Pattern |
-|--------|---------|
-| Phase scope | 1-3 plans, 45-120 min each |
-| Acceptance criteria | Specific, measurable |
-| Dependencies | Explicitly stated |
-| Verification | Shell command provided |
-| Risk flagging | Research: Likely/Unlikely |
+| Factor              | Pattern                    |
+| ------------------- | -------------------------- |
+| Phase scope         | 1-3 plans, 45-120 min each |
+| Acceptance criteria | Specific, measurable       |
+| Dependencies        | Explicitly stated          |
+| Verification        | Shell command provided     |
+| Risk flagging       | Research: Likely/Unlikely  |
 
 ### Observed Metrics
 
@@ -251,7 +273,7 @@ From testkitchen analysis:
 
 ```json
 {
-  "mode": "yolo",           // or: "careful"
+  "mode": "yolo", // or: "careful"
   "depth": "standard",
   "gates": {
     "planning": true,
@@ -266,10 +288,10 @@ From testkitchen analysis:
 
 ### Mode Differences
 
-| Mode | Behavior |
-|------|----------|
-| `yolo` | Fast execution, minimal confirmations |
-| `careful` | More gates, explicit confirmations |
+| Mode      | Behavior                              |
+| --------- | ------------------------------------- |
+| `yolo`    | Fast execution, minimal confirmations |
+| `careful` | More gates, explicit confirmations    |
 
 ## Best Practices
 
@@ -294,13 +316,13 @@ From testkitchen analysis:
 
 GAS CLI commands (from project directory):
 
-| Command | Purpose |
-|---------|---------|
-| `/gas:progress` | Check current state |
-| `/gas:plan-phase` | Create plan for next phase |
-| `/gas:execute-plan` | Execute current plan |
-| `/gas:verify-work` | Run verification |
-| `/gas:next-shift` | Handoff for next session |
+| Command             | Purpose                    |
+| ------------------- | -------------------------- |
+| `/gas:progress`     | Check current state        |
+| `/gas:plan-phase`   | Create plan for next phase |
+| `/gas:execute-plan` | Execute current plan       |
+| `/gas:verify-work`  | Run verification           |
+| `/gas:next-shift`   | Handoff for next session   |
 
 ## Related
 

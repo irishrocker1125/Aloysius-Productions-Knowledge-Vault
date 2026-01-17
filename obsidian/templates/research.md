@@ -1,12 +1,12 @@
 ---
 title: "{{title}}"
-created: {{date}}
+created: { { date } }
 type: research
 status: completed | active
 outcome: success | partial | failed
 tags:
   - research
-  - {{topic}}
+  - { { topic } }
 source: "{{source-path}}"
 ---
 
@@ -29,12 +29,14 @@ How did we investigate?
 What did we discover?
 
 ### Key Observations
+
 - Observation 1
 - Observation 2
 
 ### Data
-| Metric | Value |
-|--------|-------|
+
+| Metric   | Value |
+| -------- | ----- |
 | Metric 1 | Value |
 
 ## Outcome

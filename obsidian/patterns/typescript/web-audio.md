@@ -44,7 +44,7 @@ class AudioService {
       this.context = new AudioContext();
     }
 
-    if (this.context.state === 'suspended') {
+    if (this.context.state === "suspended") {
       await this.context.resume();
     }
 
@@ -59,7 +59,7 @@ class AudioService {
   }
 
   isReady(): boolean {
-    return this.isResumed && this.context?.state === 'running';
+    return this.isResumed && this.context?.state === "running";
   }
 }
 
@@ -72,16 +72,13 @@ Professional-sounding synthesis with Attack-Decay-Sustain-Release:
 
 ```typescript
 interface ADSRParams {
-  attack: number;   // seconds
-  decay: number;    // seconds
-  sustain: number;  // 0-1 level
-  release: number;  // seconds
+  attack: number; // seconds
+  decay: number; // seconds
+  sustain: number; // 0-1 level
+  release: number; // seconds
 }
 
-function createEnvelope(
-  context: AudioContext,
-  params: ADSRParams
-): GainNode {
+function createEnvelope(context: AudioContext, params: ADSRParams): GainNode {
   const { attack, decay, sustain, release } = params;
   const now = context.currentTime;
 
@@ -97,10 +94,7 @@ function createEnvelope(
   return gainNode;
 }
 
-function releaseEnvelope(
-  gainNode: GainNode,
-  release: number
-): void {
+function releaseEnvelope(gainNode: GainNode, release: number): void {
   const context = gainNode.context;
   const now = context.currentTime;
 
@@ -121,20 +115,20 @@ interface SoundPreset {
 
 const PRESETS: Record<string, SoundPreset> = {
   kick: {
-    type: 'sine',
+    type: "sine",
     frequency: 60,
-    adsr: { attack: 0.01, decay: 0.2, sustain: 0, release: 0.1 }
+    adsr: { attack: 0.01, decay: 0.2, sustain: 0, release: 0.1 },
   },
   snare: {
-    type: 'triangle',
+    type: "triangle",
     frequency: 200,
-    adsr: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 }
+    adsr: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 },
   },
   hihat: {
-    type: 'square',
+    type: "square",
     frequency: 800,
-    adsr: { attack: 0.01, decay: 0.05, sustain: 0, release: 0.05 }
-  }
+    adsr: { attack: 0.01, decay: 0.05, sustain: 0, release: 0.05 },
+  },
 };
 
 function playSound(presetName: string): void {
@@ -164,7 +158,7 @@ function playSound(presetName: string): void {
 ### useAudio Hook
 
 ```typescript
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from "react";
 
 export function useAudio() {
   const [isReady, setIsReady] = useState(false);
@@ -178,10 +172,13 @@ export function useAudio() {
     setIsReady(true);
   }, []);
 
-  const play = useCallback((preset: string) => {
-    if (!isReady) return;
-    playSound(preset);
-  }, [isReady]);
+  const play = useCallback(
+    (preset: string) => {
+      if (!isReady) return;
+      playSound(preset);
+    },
+    [isReady],
+  );
 
   return { isReady, initialize, play };
 }
@@ -190,34 +187,35 @@ export function useAudio() {
 ### useKeyboard Hook
 
 ```typescript
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef } from "react";
 
-export function useKeyboard(
-  keyMap: Record<string, () => void>
-) {
+export function useKeyboard(keyMap: Record<string, () => void>) {
   const pressedKeys = useRef(new Set<string>());
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (pressedKeys.current.has(e.key)) return; // Prevent repeat
-    pressedKeys.current.add(e.key);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (pressedKeys.current.has(e.key)) return; // Prevent repeat
+      pressedKeys.current.add(e.key);
 
-    const handler = keyMap[e.key];
-    if (handler) {
-      e.preventDefault();
-      handler();
-    }
-  }, [keyMap]);
+      const handler = keyMap[e.key];
+      if (handler) {
+        e.preventDefault();
+        handler();
+      }
+    },
+    [keyMap],
+  );
 
   const handleKeyUp = useCallback((e: KeyboardEvent) => {
     pressedKeys.current.delete(e.key);
   }, []);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, [handleKeyDown, handleKeyUp]);
 }
@@ -225,16 +223,17 @@ export function useKeyboard(
 
 ## Key Lessons
 
-| Lesson | Solution |
-|--------|----------|
-| Browser requires user gesture | Call `resumeContext()` on first click |
-| Can't change oscillator frequency mid-play | Stop and restart with new params |
-| AudioContext should be singleton | Prevent multiple contexts |
-| Oscillators are one-shot | Create new for each sound |
+| Lesson                                     | Solution                              |
+| ------------------------------------------ | ------------------------------------- |
+| Browser requires user gesture              | Call `resumeContext()` on first click |
+| Can't change oscillator frequency mid-play | Stop and restart with new params      |
+| AudioContext should be singleton           | Prevent multiple contexts             |
+| Oscillators are one-shot                   | Create new for each sound             |
 
 ## Trade-offs
 
 ### Synthesized vs Sample-Based
+
 - **Synthesized**: No assets, infinite customization, smaller bundle
 - **Sample-Based**: Realistic sounds, simpler code, larger assets
 

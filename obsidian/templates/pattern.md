@@ -1,14 +1,14 @@
 ---
 title: "{{title}}"
-created: {{date}}
+created: { { date } }
 type: pattern
 language: swift | typescript
 reusable: true
-source_project: {{project}}
+source_project: { { project } }
 tags:
   - pattern
-  - {{language}}
-  - {{category}}
+  - { { language } }
+  - { { category } }
 ---
 
 # {{title}}
@@ -36,10 +36,12 @@ How to apply this pattern:
 ## Trade-offs
 
 ### When to Use
+
 - Condition 1
 - Condition 2
 
 ### When NOT to Use
+
 - Anti-pattern 1
 - Anti-pattern 2
 

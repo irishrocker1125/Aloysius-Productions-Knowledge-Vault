@@ -9,29 +9,29 @@
 ## Key Decisions
 
 | Decision | Rationale | Outcome | Phase |
-|----------|-----------|---------|-------|
+| -------- | --------- | ------- | ----- |
 
 ---
 
 ## Patterns Established
 
 | Pattern | Context | Reusable? | Notes |
-|---------|---------|-----------|-------|
+| ------- | ------- | --------- | ----- |
 
 ---
 
 ## Lessons Learned
 
 | Lesson | Impact | Recommendation |
-|--------|--------|----------------|
+| ------ | ------ | -------------- |
 
 ---
 
 ## Technical Debt
 
 | Item | Priority | Phase Introduced | Notes |
-|------|----------|------------------|-------|
+| ---- | -------- | ---------------- | ----- |
 
 ---
 
-*This knowledge register is aggregated into the organization Knowledge Index by ops-core.*
+_This knowledge register is aggregated into the organization Knowledge Index by ops-core._

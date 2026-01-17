@@ -17,11 +17,12 @@ Proof-of-concept experiments, technology evaluations, and investigative findings
 
 ## Active Investigations
 
-*No active research at this time.*
+_No active research at this time._
 
 ## About This Section
 
 Research documents capture:
+
 - **Hypothesis** - What we were trying to learn
 - **Approach** - How we investigated
 - **Findings** - What we discovered

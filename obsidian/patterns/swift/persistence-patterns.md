@@ -117,19 +117,23 @@ class DocumentStorage {
 ## Trade-offs
 
 ### UserDefaults
+
 - **Use when**: Small data, settings, preferences
 - **Avoid when**: Large datasets, complex relationships
 - **Limit**: ~1MB practical maximum
 
 ### AppStorage
+
 - **Use when**: SwiftUI views need direct binding
 - **Avoid when**: Complex data, non-view contexts
 
 ### File-Based
+
 - **Use when**: Larger data, need portability
 - **Avoid when**: Relational data, need queries
 
 ### CoreData/SwiftData
+
 - **Use when**: Relational data, complex queries
 - **Avoid when**: Simple key-value needs
 
@@ -138,6 +142,7 @@ class DocumentStorage {
 ### Session-Only State
 
 Some apps intentionally don't persist (Quest-Forge):
+
 - Sessions are short by design
 - Reduces architecture complexity
 - No save state bugs
@@ -145,6 +150,7 @@ Some apps intentionally don't persist (Quest-Forge):
 ### Incremental Saves
 
 For games with frequent updates:
+
 ```swift
 func processMove() {
     // Only save on significant events

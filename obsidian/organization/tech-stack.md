@@ -26,12 +26,12 @@ SwiftUI + Swift
 
 ### Key Choices
 
-| Choice | Rationale |
-|--------|-----------|
-| SwiftUI only | Modern, declarative UI framework |
-| iOS 17+ target | Access to @Observable, latest APIs |
-| No external deps | Simplicity, no package management |
-| Value types | Predictable state, easy testing |
+| Choice           | Rationale                          |
+| ---------------- | ---------------------------------- |
+| SwiftUI only     | Modern, declarative UI framework   |
+| iOS 17+ target   | Access to @Observable, latest APIs |
+| No external deps | Simplicity, no package management  |
+| Value types      | Predictable state, easy testing    |
 
 ### iOS Projects
 
@@ -54,12 +54,12 @@ React 18 + TypeScript 5.3 + Vite
 
 ### Key Choices
 
-| Choice | Rationale |
-|--------|-----------|
-| TypeScript strict | Type safety, better tooling |
-| Vite | Fast dev server, modern bundler |
-| Vitest | Jest-compatible, fast, ESM native |
-| Tailwind | Utility-first, consistent styling |
+| Choice            | Rationale                         |
+| ----------------- | --------------------------------- |
+| TypeScript strict | Type safety, better tooling       |
+| Vite              | Fast dev server, modern bundler   |
+| Vitest            | Jest-compatible, fast, ESM native |
+| Tailwind          | Utility-first, consistent styling |
 
 ### Web Projects
 
@@ -81,44 +81,46 @@ gloriously-awesome-system (GAS)
 
 ### DevOps
 
-| Tool | Purpose |
-|------|---------|
-| GitHub Actions | CI/CD automation |
-| GitHub Pages | Static site hosting |
-| Husky | Pre-commit hooks |
-| TruffleHog | Secret scanning |
+| Tool           | Purpose             |
+| -------------- | ------------------- |
+| GitHub Actions | CI/CD automation    |
+| GitHub Pages   | Static site hosting |
+| Husky          | Pre-commit hooks    |
+| TruffleHog     | Secret scanning     |
 
 ## Testing Strategy
 
 ### iOS
+
 - XCTest framework
 - xcodebuild for CI
 - Pre-push hook enforcement
 
 ### Web
+
 - Vitest with coverage
 - React Testing Library
 - Pre-commit validation
 
 ## Code Quality
 
-| Standard | Enforcement |
-|----------|-------------|
-| TypeScript strict | tsconfig |
-| ESLint rules | Flat config |
+| Standard           | Enforcement      |
+| ------------------ | ---------------- |
+| TypeScript strict  | tsconfig         |
+| ESLint rules       | Flat config      |
 | ARIA accessibility | Component review |
-| Dark theme default | Design system |
+| Dark theme default | Design system    |
 
 ## Architecture Patterns
 
 ### Cross-Platform
 
-| Pattern | iOS | Web |
-|---------|-----|-----|
-| State management | @Observable | Context + Reducer |
-| Navigation | NavigationStack | React Router |
-| Persistence | UserDefaults | localStorage |
-| Testing | XCTest | Vitest |
+| Pattern          | iOS             | Web               |
+| ---------------- | --------------- | ----------------- |
+| State management | @Observable     | Context + Reducer |
+| Navigation       | NavigationStack | React Router      |
+| Persistence      | UserDefaults    | localStorage      |
+| Testing          | XCTest          | Vitest            |
 
 ### Shared Principles
 

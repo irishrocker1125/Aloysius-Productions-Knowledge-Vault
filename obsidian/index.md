@@ -22,6 +22,7 @@ Technical decisions, patterns, and lessons learned from individual projects.
 Technical documentation, guides, and best practices.
 
 ### TestKitchen Series
+
 - [[references/testkitchen/architecture-patterns|Architecture Patterns]]
 - [[references/testkitchen/swift-conventions|Swift Conventions]]
 - [[references/testkitchen/typescript-conventions|TypeScript Conventions]]
@@ -30,15 +31,18 @@ Technical documentation, guides, and best practices.
 - [[references/testkitchen/velocity-insights|Velocity Insights]]
 
 ### Methodology
+
 - [[references/methodology/tdd-workflow|TDD Workflow]]
 - [[references/methodology/systematic-debugging|Systematic Debugging]]
 - [[references/methodology/granular-planning|Granular Planning]]
 
 ### Standards
+
 - [[references/standards/typescript-eslint|TypeScript & ESLint]]
 - [[references/standards/monorepo-conventions|Monorepo Conventions]]
 
 ### Infrastructure
+
 - [[references/infrastructure/index|Infrastructure Patterns]]
 
 ## Patterns

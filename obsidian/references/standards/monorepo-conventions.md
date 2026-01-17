@@ -16,38 +16,42 @@ Project organization and conventions for a multi-project repository.
 
 ## Project Types
 
-| Type | Description | Examples |
-|------|-------------|----------|
-| **Local** | Native to this repo | iOS apps, utilities |
-| **Submodule** | Git submodules | External dependencies, libraries |
-| **Library** | Knowledge repos | Research, documentation |
-| **Shared** | Cross-project code | Utilities, AI patterns |
+| Type          | Description         | Examples                         |
+| ------------- | ------------------- | -------------------------------- |
+| **Local**     | Native to this repo | iOS apps, utilities              |
+| **Submodule** | Git submodules      | External dependencies, libraries |
+| **Library**   | Knowledge repos     | Research, documentation          |
+| **Shared**    | Cross-project code  | Utilities, AI patterns           |
 
 ## Directory Structure
 
-| Directory | Purpose |
-|-----------|---------|
-| `docs/` | Methodology guides |
-| `shared/` | Shared utilities |
+| Directory           | Purpose              |
+| ------------------- | -------------------- |
+| `docs/`             | Methodology guides   |
+| `shared/`           | Shared utilities     |
 | `shared-resources/` | AI patterns, scripts |
 
 ## Technology Conventions
 
 ### iOS Projects
+
 - SwiftUI + MVVM architecture
 - iOS 17+ deployment target
 - @Observable for state management
 
 ### Web Projects
+
 - React 18 + TypeScript
 - Vite for building
 - Vitest for testing
 
 ### Testing
+
 - Required before push (enforced by hooks)
 - TDD workflow: RED → GREEN → REFACTOR
 
 ### Planning
+
 - Every active project has `.planning/` directory
 - GAS framework for workflow management
 

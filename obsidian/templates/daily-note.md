@@ -1,9 +1,9 @@
 ---
 title: "{{date:YYYY-MM-DD}}"
-date: {{date}}
+date: { { date } }
 tags:
   - daily
-  - {{date:YYYY-MM}}
+  - { { date:YYYY-MM } }
 ---
 
 # {{date:dddd, MMMM D, YYYY}}

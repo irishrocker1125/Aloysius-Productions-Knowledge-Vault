@@ -5,6 +5,12 @@ node_modules/
 public/
 .quartz-cache/
 
+# TypeScript compiled output
+**/*.js
+**/*.js.map
+!quartz/cli/**/*.js
+!scripts/**/*.js
+
 # Obsidian
 .obsidian/
 

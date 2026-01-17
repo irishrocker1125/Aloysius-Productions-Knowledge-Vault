@@ -69,7 +69,7 @@ function createChatEngine(deps: {
 
     getHistory(): string[] {
       return [...history];
-    }
+    },
   };
 }
 ```
@@ -79,38 +79,38 @@ function createChatEngine(deps: {
 ### Production
 
 ```typescript
-import { consoleLogger } from './logger';
-import { localStorageAdapter } from './storage';
-import { defaultRules } from './rules';
+import { consoleLogger } from "./logger";
+import { localStorageAdapter } from "./storage";
+import { defaultRules } from "./rules";
 
 const engine = createChatEngine({
   logger: consoleLogger,
   storage: localStorageAdapter,
-  rules: defaultRules
+  rules: defaultRules,
 });
 ```
 
 ### Testing
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from "vitest";
 
-describe('ChatEngine', () => {
-  it('logs input when processing', () => {
+describe("ChatEngine", () => {
+  it("logs input when processing", () => {
     const mockLogger = {
       log: vi.fn(),
-      error: vi.fn()
+      error: vi.fn(),
     };
 
     const engine = createChatEngine({
       logger: mockLogger,
       storage: { get: vi.fn(), set: vi.fn() },
-      rules: []
+      rules: [],
     });
 
-    engine.process('hello');
+    engine.process("hello");
 
-    expect(mockLogger.log).toHaveBeenCalledWith('Processing: hello');
+    expect(mockLogger.log).toHaveBeenCalledWith("Processing: hello");
   });
 });
 ```
@@ -139,7 +139,7 @@ class ChatEngine {
   constructor(
     private logger: Logger,
     private storage: Storage,
-    private rules: Rule[]
+    private rules: Rule[],
   ) {}
 
   process(input: string): string {
@@ -152,11 +152,13 @@ class ChatEngine {
 ## Trade-offs
 
 ### When to Use
+
 - Services with multiple dependencies
 - Code that needs unit testing
 - Components that vary by environment
 
 ### When NOT to Use
+
 - Simple utility functions
 - Pure functions with no side effects
 - One-off scripts

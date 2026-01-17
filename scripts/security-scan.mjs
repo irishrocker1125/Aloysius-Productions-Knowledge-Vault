@@ -4,40 +4,55 @@
  * Runs during pre-commit to catch sensitive data before it enters git history
  */
 
-import { readFileSync, existsSync } from 'fs';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync, existsSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(__dirname, '..');
+const projectRoot = resolve(__dirname, "..");
 
 // Patterns that should BLOCK commit
 const BLOCKING_PATTERNS = [
   // API Keys
-  { name: 'OpenAI API Key', regex: /sk-[a-zA-Z0-9]{48}/g },
-  { name: 'Anthropic API Key', regex: /sk-ant-[a-zA-Z0-9-]{40,}/g },
-  { name: 'GitHub PAT', regex: /ghp_[a-zA-Z0-9]{36}/g },
-  { name: 'GitHub OAuth', regex: /gho_[a-zA-Z0-9]{36}/g },
-  { name: 'GitHub Fine-Grained PAT', regex: /github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}/g },
-  { name: 'Slack Token', regex: /xox[baprs]-[a-zA-Z0-9-]+/g },
-  { name: 'AWS Access Key', regex: /AKIA[0-9A-Z]{16}/g },
+  { name: "OpenAI API Key", regex: /sk-[a-zA-Z0-9]{48}/g },
+  { name: "Anthropic API Key", regex: /sk-ant-[a-zA-Z0-9-]{40,}/g },
+  { name: "GitHub PAT", regex: /ghp_[a-zA-Z0-9]{36}/g },
+  { name: "GitHub OAuth", regex: /gho_[a-zA-Z0-9]{36}/g },
+  {
+    name: "GitHub Fine-Grained PAT",
+    regex: /github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}/g,
+  },
+  { name: "Slack Token", regex: /xox[baprs]-[a-zA-Z0-9-]+/g },
+  { name: "AWS Access Key", regex: /AKIA[0-9A-Z]{16}/g },
 
   // Credentials
-  { name: 'Inline Password', regex: /(?:password|passwd|pwd)\s*[:=]\s*["'][^"']{8,}["']/gi },
-  { name: 'Inline Secret', regex: /(?:secret|api[_-]?key|token)\s*[:=]\s*["'][^"']{8,}["']/gi },
+  {
+    name: "Inline Password",
+    regex: /(?:password|passwd|pwd)\s*[:=]\s*["'][^"']{8,}["']/gi,
+  },
+  {
+    name: "Inline Secret",
+    regex: /(?:secret|api[_-]?key|token)\s*[:=]\s*["'][^"']{8,}["']/gi,
+  },
 
   // Private URLs
-  { name: 'Private IP URL', regex: /https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/g },
-  { name: 'Localhost URL', regex: /https?:\/\/localhost:\d+/g },
+  {
+    name: "Private IP URL",
+    regex: /https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2[0-9]|3[01])\.)/g,
+  },
+  { name: "Localhost URL", regex: /https?:\/\/localhost:\d+/g },
 
   // PII
-  { name: 'SSN Pattern', regex: /\b\d{3}[-.]?\d{2}[-.]?\d{4}\b/g },
+  { name: "SSN Pattern", regex: /\b\d{3}[-.]?\d{2}[-.]?\d{4}\b/g },
 ];
 
 // Patterns to WARN but not block (for review)
 const WARNING_PATTERNS = [
-  { name: 'Email Address', regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g },
-  { name: 'Phone Number', regex: /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g },
+  {
+    name: "Email Address",
+    regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+  },
+  { name: "Phone Number", regex: /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g },
 ];
 
 // Allowlist patterns (if line contains these, skip detection)
@@ -47,18 +62,20 @@ const ALLOWLIST_PATTERNS = [
   /PLACEHOLDER/i,
   /your-.*-here/i,
   /xxx+/i,
-  /<[A-Z_]+>/,  // Placeholder brackets like <API_KEY>
-  /```/,        // Code block markers (examples)
+  /<[A-Z_]+>/, // Placeholder brackets like <API_KEY>
+  /```/, // Code block markers (examples)
   /sk-xxxxxxxx/i,
   /\*\*\*redacted\*\*\*/i,
 ];
 
 // Load custom allowlist if exists
 function loadAllowlist() {
-  const allowlistPath = resolve(projectRoot, '.security-allowlist');
+  const allowlistPath = resolve(projectRoot, ".security-allowlist");
   if (existsSync(allowlistPath)) {
-    const content = readFileSync(allowlistPath, 'utf-8');
-    return content.split('\n').filter(line => line.trim() && !line.startsWith('#'));
+    const content = readFileSync(allowlistPath, "utf-8");
+    return content
+      .split("\n")
+      .filter((line) => line.trim() && !line.startsWith("#"));
   }
   return [];
 }
@@ -80,8 +97,8 @@ function isAllowlisted(line, customAllowlist) {
 }
 
 function scanFile(filePath, customAllowlist) {
-  const content = readFileSync(filePath, 'utf-8');
-  const lines = content.split('\n');
+  const content = readFileSync(filePath, "utf-8");
+  const lines = content.split("\n");
   const issues = [];
   const warnings = [];
 
@@ -100,7 +117,8 @@ function scanFile(filePath, customAllowlist) {
           file: filePath,
           line: index + 1,
           pattern: pattern.name,
-          match: matches[0].substring(0, 20) + (matches[0].length > 20 ? '...' : ''),
+          match:
+            matches[0].substring(0, 20) + (matches[0].length > 20 ? "..." : ""),
         });
       }
     }
@@ -126,7 +144,7 @@ function scanFile(filePath, customAllowlist) {
 // Main execution
 const files = process.argv.slice(2);
 if (files.length === 0) {
-  console.log('No files to scan');
+  console.log("No files to scan");
   process.exit(0);
 }
 
@@ -145,7 +163,9 @@ for (const file of files) {
     hasErrors = true;
     console.error(`\n\x1b[31mSECURITY ISSUES in ${file}:\x1b[0m`);
     for (const issue of issues) {
-      console.error(`  Line ${issue.line}: ${issue.pattern} - "${issue.match}"`);
+      console.error(
+        `  Line ${issue.line}: ${issue.pattern} - "${issue.match}"`,
+      );
     }
   }
 
@@ -155,15 +175,19 @@ for (const file of files) {
 if (allWarnings.length > 0) {
   console.warn(`\n\x1b[33mSECURITY WARNINGS (review recommended):\x1b[0m`);
   for (const warning of allWarnings) {
-    console.warn(`  ${warning.file}:${warning.line} - ${warning.pattern}: "${warning.match}"`);
+    console.warn(
+      `  ${warning.file}:${warning.line} - ${warning.pattern}: "${warning.match}"`,
+    );
   }
 }
 
 if (hasErrors) {
-  console.error('\n\x1b[31mCommit blocked: Security issues detected.\x1b[0m');
-  console.error('To add an allowlist exception, add the pattern to .security-allowlist');
+  console.error("\n\x1b[31mCommit blocked: Security issues detected.\x1b[0m");
+  console.error(
+    "To add an allowlist exception, add the pattern to .security-allowlist",
+  );
   process.exit(1);
 }
 
-console.log('\n\x1b[32mSecurity scan passed.\x1b[0m');
+console.log("\n\x1b[32mSecurity scan passed.\x1b[0m");
 process.exit(0);

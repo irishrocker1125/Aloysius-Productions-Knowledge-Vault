@@ -25,6 +25,7 @@ The testkitchen projects follow strict TDD with atomic commits:
 ```
 
 **Example from Poker:**
+
 ```bash
 git log --oneline
 abc1234 test: add failing hand comparison tests
@@ -74,27 +75,27 @@ final class HandEvaluatorTests: XCTestCase {
 ### TypeScript/Vitest (TS Projects)
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { createEngine } from '../src/engine';
+import { describe, it, expect } from "vitest";
+import { createEngine } from "../src/engine";
 
-describe('createEngine', () => {
-  it('should start in greeting state', () => {
+describe("createEngine", () => {
+  it("should start in greeting state", () => {
     const engine = createEngine();
-    expect(engine.getState()).toBe('greeting');
+    expect(engine.getState()).toBe("greeting");
   });
 
-  it('should transition to main after greeting', () => {
+  it("should transition to main after greeting", () => {
     const engine = createEngine();
-    engine.process('hello');
-    expect(engine.getState()).toBe('main');
+    engine.process("hello");
+    expect(engine.getState()).toBe("main");
   });
 
-  it('should use injected RNG for deterministic output', () => {
+  it("should use injected RNG for deterministic output", () => {
     const rng = makeRng([0, 0.5, 1]);
     const engine = createEngine(undefined, { rng });
 
     // First response uses rng() = 0, selecting first option
-    const response1 = engine.process('test');
+    const response1 = engine.process("test");
     // Deterministic based on injected values
   });
 });
@@ -127,20 +128,20 @@ const engine = createEngine(undefined, { rng: makeRng([0, 0.5, 1]) });
 // Factory for test personas
 function makePersona(rules: Rule[]): Persona {
   return {
-    name: 'test',
+    name: "test",
     rules,
-    greeting: 'Hello',
-    goodbye: 'Goodbye'
+    greeting: "Hello",
+    goodbye: "Goodbye",
   };
 }
 
 // Reusable in all tests
-it('should match rule pattern', () => {
+it("should match rule pattern", () => {
   const persona = makePersona([
-    { pattern: /hello/i, responses: ['Hi there!'] }
+    { pattern: /hello/i, responses: ["Hi there!"] },
   ]);
   const engine = createEngine(persona);
-  expect(engine.process('hello')).toBe('Hi there!');
+  expect(engine.process("hello")).toBe("Hi there!");
 });
 ```
 
@@ -171,20 +172,20 @@ Test component interactions:
 
 ```typescript
 // GTD: Context integration
-describe('InboxContext', () => {
-  it('should persist items to storage', async () => {
+describe("InboxContext", () => {
+  it("should persist items to storage", async () => {
     const { result } = renderHook(() => useInbox(), {
-      wrapper: InboxProvider
+      wrapper: InboxProvider,
     });
 
     act(() => {
-      result.current.addItem('Test task');
+      result.current.addItem("Test task");
     });
 
     // Verify persistence
     const stored = await storage.load();
     expect(stored).toContainEqual(
-      expect.objectContaining({ content: 'Test task' })
+      expect.objectContaining({ content: "Test task" }),
     );
   });
 });
@@ -209,10 +210,10 @@ func testHandEnforcesMaxCards() {
 
 ### File Naming
 
-| Platform | Convention | Example |
-|----------|------------|---------|
-| Swift | `*Tests.swift` | `HandEvaluatorTests.swift` |
-| TypeScript | `*.test.ts` | `engine.test.ts` |
+| Platform   | Convention     | Example                    |
+| ---------- | -------------- | -------------------------- |
+| Swift      | `*Tests.swift` | `HandEvaluatorTests.swift` |
+| TypeScript | `*.test.ts`    | `engine.test.ts`           |
 
 ### Test Location
 
@@ -259,20 +260,21 @@ tests/
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'node',
-    setupFiles: ['./tests/setup.ts'],
+    environment: "node",
+    setupFiles: ["./tests/setup.ts"],
     coverage: {
-      provider: 'v8',
-      include: ['src/**/*.ts'],
-      exclude: ['**/*.d.ts', 'src/index.ts']
-    }
-  }
+      provider: "v8",
+      include: ["src/**/*.ts"],
+      exclude: ["**/*.d.ts", "src/index.ts"],
+    },
+  },
 });
 ```
 
 ### XCTest (Swift)
 
 Configured via Xcode scheme:
+
 - Test parallelization enabled
 - Code coverage collection enabled
 - Randomized test order

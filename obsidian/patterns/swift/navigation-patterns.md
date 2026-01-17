@@ -134,20 +134,24 @@ struct ModeSelectionView: View {
 ## Trade-offs
 
 ### NavigationStack
+
 - **Use when**: Hierarchical content, need back button
 - **Avoid when**: Immersive experiences, game screens
 
 ### fullScreenCover
+
 - **Use when**: Immersive modals, game screens
 - **Avoid when**: Quick interactions, drill-down content
 
 ### State-Driven
+
 - **Use when**: Simple flows, contained experiences
 - **Avoid when**: Deep hierarchies, many destinations
 
 ## Source
 
 Extracted from:
+
 - [[projects/ios/quest-forge|Quest-Forge]] - fullScreenCover for game immersion
 - [[projects/ios/madlibs|MadLibs]] - State-driven mode switching
 

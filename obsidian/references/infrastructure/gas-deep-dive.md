@@ -18,6 +18,7 @@ The Gregorian Agentic System (GAS) is the planning and execution framework used 
 ## Core Philosophy
 
 GAS provides structured project delivery through:
+
 - **Phase-based milestones** - Incremental delivery
 - **State tracking** - Session continuity
 - **Velocity metrics** - Performance visibility
@@ -49,6 +50,7 @@ Every GAS project maintains:
 ### 1. PROJECT.md (Static)
 
 Defines the project scope and constraints:
+
 - Core value proposition
 - Requirements (validated, active, out of scope)
 - Technical constraints
@@ -57,6 +59,7 @@ Defines the project scope and constraints:
 ### 2. ROADMAP.md (Evolving)
 
 Tracks milestone and phase progress:
+
 - Visual progress indicators
 - Phase descriptions
 - Completion status
@@ -64,6 +67,7 @@ Tracks milestone and phase progress:
 ### 3. STATE.md (Dynamic)
 
 Current execution state:
+
 - Current phase and plan position
 - Velocity metrics
 - Session continuity notes
@@ -100,6 +104,7 @@ Shell command to verify
 ### 5. SUMMARY.md (Post-Execution)
 
 Captures what actually happened:
+
 - Actual duration
 - Key decisions made
 - Issues and deviations
@@ -122,6 +127,7 @@ Phase 4: Secondary Features (extensions)
 ### Decimal Phases for Urgent Work
 
 Insert work without renumbering:
+
 - `03.1-hotfix/` between 03 and 04
 - Maintains audit trail
 - Clear priority signal
@@ -130,12 +136,12 @@ Insert work without renumbering:
 
 ### What High-Velocity Projects Share
 
-| Factor | Pattern |
-|--------|---------|
-| Phase scope | 1-3 plans, 45-120 min each |
-| Acceptance criteria | Specific, measurable |
-| Dependencies | Explicitly stated |
-| Verification | Shell command provided |
+| Factor              | Pattern                    |
+| ------------------- | -------------------------- |
+| Phase scope         | 1-3 plans, 45-120 min each |
+| Acceptance criteria | Specific, measurable       |
+| Dependencies        | Explicitly stated          |
+| Verification        | Shell command provided     |
 
 ### Observed Metrics
 
@@ -146,17 +152,18 @@ Insert work without renumbering:
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/gas:progress` | Check current state |
-| `/gas:plan-phase` | Create next phase plan |
-| `/gas:execute-plan` | Execute current plan |
-| `/gas:verify-work` | Run verification |
-| `/gas:next-shift` | Session handoff |
+| Command             | Purpose                |
+| ------------------- | ---------------------- |
+| `/gas:progress`     | Check current state    |
+| `/gas:plan-phase`   | Create next phase plan |
+| `/gas:execute-plan` | Execute current plan   |
+| `/gas:verify-work`  | Run verification       |
+| `/gas:next-shift`   | Session handoff        |
 
 ## Best Practices
 
 ### Do
+
 - Keep phases independently testable
 - State dependencies explicitly
 - Provide verification commands
@@ -164,6 +171,7 @@ Insert work without renumbering:
 - Track deferred items
 
 ### Don't
+
 - Create phases with no clear deliverable
 - Skip summaries
 - Let phases depend on incomplete work

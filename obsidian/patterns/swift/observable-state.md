@@ -133,12 +133,14 @@ class PlayerState {
 ## Trade-offs
 
 ### When to Use @Observable
+
 - iOS 17+ target
 - New projects
 - Less boilerplate needed
 - Automatic dependency tracking
 
 ### When to Use @Published
+
 - iOS 13-16 support needed
 - Existing ObservableObject codebases
 - Need Combine integration
@@ -146,6 +148,7 @@ class PlayerState {
 ## Source
 
 Extracted from:
+
 - [[projects/ios/poker|Poker]] - GameState centralization
 - [[projects/ios/madlibs|MadLibs]] - @Observable adoption
 

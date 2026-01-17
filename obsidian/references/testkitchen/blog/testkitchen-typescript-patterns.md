@@ -52,13 +52,13 @@ Instead of classes with constructors:
 ```typescript
 // Don't do this
 class Engine {
-    private state: ConversationState = 'greeting';
+  private state: ConversationState = "greeting";
 
-    constructor(private persona: Persona) {}
+  constructor(private persona: Persona) {}
 
-    process(input: string): string {
-        // Uses Math.random() internally - untestable!
-    }
+  process(input: string): string {
+    // Uses Math.random() internally - untestable!
+  }
 }
 ```
 
@@ -66,21 +66,23 @@ Do this:
 
 ```typescript
 export function createEngine(
-    persona?: Persona,
-    options?: { rng?: () => number; responseStyle?: ResponseStyle }
+  persona?: Persona,
+  options?: { rng?: () => number; responseStyle?: ResponseStyle },
 ): Engine {
-    let state: ConversationState = 'greeting';
-    const rng = options?.rng ?? Math.random;
+  let state: ConversationState = "greeting";
+  const rng = options?.rng ?? Math.random;
 
-    return {
-        process: (input: string) => {
-            // Uses injected rng - testable!
-            const index = Math.floor(rng() * responses.length);
-            return responses[index];
-        },
-        getState: () => state,
-        reset: () => { state = 'greeting'; }
-    };
+  return {
+    process: (input: string) => {
+      // Uses injected rng - testable!
+      const index = Math.floor(rng() * responses.length);
+      return responses[index];
+    },
+    getState: () => state,
+    reset: () => {
+      state = "greeting";
+    },
+  };
 }
 ```
 
@@ -94,14 +96,14 @@ export function createEngine(
 
 ```typescript
 function makeRng(values: number[]): () => number {
-    let i = 0;
-    return () => values[i++ % values.length];
+  let i = 0;
+  return () => values[i++ % values.length];
 }
 
-it('should select responses deterministically', () => {
-    const engine = createEngine(persona, { rng: makeRng([0]) });
-    // rng() always returns 0, so first response is always selected
-    expect(engine.process('hello')).toBe(responses[0]);
+it("should select responses deterministically", () => {
+  const engine = createEngine(persona, { rng: makeRng([0]) });
+  // rng() always returns 0, so first response is always selected
+  expect(engine.process("hello")).toBe(responses[0]);
 });
 ```
 
@@ -115,11 +117,11 @@ TypeScript's equivalent of Swift's associated value enums:
 
 ```typescript
 export type InboxAction =
-    | { type: 'LOAD'; items: InboxItem[] }
-    | { type: 'ADD'; content: string }
-    | { type: 'CATEGORIZE'; id: string; category: Category }
-    | { type: 'SNOOZE'; id: string }
-    | { type: 'DELETE'; id: string };
+  | { type: "LOAD"; items: InboxItem[] }
+  | { type: "ADD"; content: string }
+  | { type: "CATEGORIZE"; id: string; category: Category }
+  | { type: "SNOOZE"; id: string }
+  | { type: "DELETE"; id: string };
 ```
 
 ### Why It Works
@@ -128,16 +130,19 @@ The compiler ensures exhaustive handling:
 
 ```typescript
 function inboxReducer(state: InboxState, action: InboxAction): InboxState {
-    switch (action.type) {
-        case 'LOAD':
-            return { ...state, items: action.items, isLoaded: true };
-        case 'ADD':
-            return { ...state, items: [...state.items, createItem(action.content)] };
-        case 'CATEGORIZE':
-            // TypeScript knows action has 'id' and 'category' here
-            return { ...state, items: categorize(state.items, action.id, action.category) };
-        // If you forget a case, TypeScript errors
-    }
+  switch (action.type) {
+    case "LOAD":
+      return { ...state, items: action.items, isLoaded: true };
+    case "ADD":
+      return { ...state, items: [...state.items, createItem(action.content)] };
+    case "CATEGORIZE":
+      // TypeScript knows action has 'id' and 'category' here
+      return {
+        ...state,
+        items: categorize(state.items, action.id, action.category),
+      };
+    // If you forget a case, TypeScript errors
+  }
 }
 ```
 
@@ -163,28 +168,29 @@ default:
 
 ```typescript
 interface InboxState {
-    items: InboxItem[];
-    isLoaded: boolean;
-    saveError: boolean;
+  items: InboxItem[];
+  isLoaded: boolean;
+  saveError: boolean;
 }
 
 const InboxContext = createContext<{
-    state: InboxState;
-    dispatch: Dispatch<InboxAction>;
+  state: InboxState;
+  dispatch: Dispatch<InboxAction>;
 } | null>(null);
 
 export function useInbox() {
-    const context = useContext(InboxContext);
-    if (!context) {
-        throw new Error('useInbox must be used within InboxProvider');
-    }
-    return context;
+  const context = useContext(InboxContext);
+  if (!context) {
+    throw new Error("useInbox must be used within InboxProvider");
+  }
+  return context;
 }
 ```
 
 ### Why Not Redux?
 
 For small apps, the React built-ins are enough:
+
 - `useReducer` handles state transitions
 - `useContext` provides global access
 - No external dependencies
@@ -203,31 +209,31 @@ Validate at the API boundary:
 
 ```typescript
 const MAX_MESSAGE_LENGTH = 1000;
-const repeatedChar = /(.)\1{500,}/;  // ReDoS protection
+const repeatedChar = /(.)\1{500,}/; // ReDoS protection
 
 export function validateMessage(
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) {
-    const { message } = req.body;
+  const { message } = req.body;
 
-    // Type check
-    if (typeof message !== 'string') {
-        return next(new AppError(400, 'Message must be a string'));
-    }
+  // Type check
+  if (typeof message !== "string") {
+    return next(new AppError(400, "Message must be a string"));
+  }
 
-    // Length check
-    if (message.length > MAX_MESSAGE_LENGTH) {
-        return next(new AppError(400, `Message too long`));
-    }
+  // Length check
+  if (message.length > MAX_MESSAGE_LENGTH) {
+    return next(new AppError(400, `Message too long`));
+  }
 
-    // Pattern check (ReDoS protection)
-    if (repeatedChar.test(message)) {
-        return next(new AppError(400, 'Suspicious input pattern'));
-    }
+  // Pattern check (ReDoS protection)
+  if (repeatedChar.test(message)) {
+    return next(new AppError(400, "Suspicious input pattern"));
+  }
 
-    next();
+  next();
 }
 ```
 
@@ -235,13 +241,13 @@ export function validateMessage(
 
 ```typescript
 export class AppError extends Error {
-    constructor(
-        public statusCode: number,
-        message: string
-    ) {
-        super(message);
-        this.name = 'AppError';
-    }
+  constructor(
+    public statusCode: number,
+    message: string,
+  ) {
+    super(message);
+    this.name = "AppError";
+  }
 }
 ```
 
@@ -255,9 +261,9 @@ Each module exposes a clean API:
 
 ```typescript
 // src/middleware/index.ts
-export { validateMessage } from './validation';
-export { errorHandler } from './errors';
-export { securityHeaders } from './security';
+export { validateMessage } from "./validation";
+export { errorHandler } from "./errors";
+export { securityHeaders } from "./security";
 ```
 
 ### Public API
@@ -266,9 +272,9 @@ The root `index.ts` is the public interface:
 
 ```typescript
 // src/index.ts
-export { createEngine } from './engine';
-export type { Engine, Persona, Rule } from './types';
-export { classicPersona } from './personas';
+export { createEngine } from "./engine";
+export type { Engine, Persona, Rule } from "./types";
+export { classicPersona } from "./personas";
 ```
 
 Internal modules import from each other. External consumers import from the root.
@@ -280,11 +286,12 @@ Internal modules import from each other. External consumers import from the root
 Separate type imports from value imports:
 
 ```typescript
-import type { InboxItem, Category, InboxState } from '@/types';
-import { createInboxItem, isProcessed } from '@/types';
+import type { InboxItem, Category, InboxState } from "@/types";
+import { createInboxItem, isProcessed } from "@/types";
 ```
 
 Why?
+
 - Clearer what's runtime vs compile-time
 - Better tree-shaking potential
 - Explicit about what's being imported
@@ -297,7 +304,7 @@ Why?
 
 ```json
 {
-    "type": "module"
+  "type": "module"
 }
 ```
 
@@ -305,12 +312,12 @@ Why?
 
 ```json
 {
-    "compilerOptions": {
-        "target": "ES2022",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "strict": true
-    }
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true
+  }
 }
 ```
 
@@ -337,12 +344,12 @@ Modern JavaScript everywhere. No CommonJS compatibility hacks.
 
 ## Comparing to Swift
 
-| Concept | Swift | TypeScript |
-|---------|-------|------------|
-| State container | ObservableObject | Context + Reducer |
+| Concept          | Swift             | TypeScript           |
+| ---------------- | ----------------- | -------------------- |
+| State container  | ObservableObject  | Context + Reducer    |
 | Associated enums | `enum case(Type)` | Discriminated unions |
-| Immutability | structs | readonly + const |
-| Validation | guard statements | Early returns |
+| Immutability     | structs           | readonly + const     |
+| Validation       | guard statements  | Early returns        |
 
 Same principles, different syntax.
 
@@ -354,4 +361,4 @@ Next: Testing and TDD practices that made shipping faster, not slower.
 
 ---
 
-*This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context.*
+_This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context._

@@ -41,7 +41,7 @@ jobs:
           fi
 
   build:
-    needs: security-gate  # Must pass first
+    needs: security-gate # Must pass first
     runs-on: ubuntu-latest
     # ... build steps
 ```
@@ -59,7 +59,7 @@ on:
     inputs:
       scan_path:
         type: string
-        default: './'
+        default: "./"
       fail_on_finding:
         type: boolean
         default: false
@@ -81,7 +81,7 @@ jobs:
   security:
     uses: org/ops-core/.github/workflows/security-sentinel.yml@main
     with:
-      scan_path: './src'
+      scan_path: "./src"
       fail_on_finding: true
 ```
 
@@ -107,7 +107,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for git dates
+          fetch-depth: 0 # Full history for git dates
 
       - uses: actions/setup-node@v4
         with:
@@ -141,8 +141,8 @@ name: iOS Tests
 on:
   push:
     paths:
-      - '**/*.swift'
-      - '**/project.pbxproj'
+      - "**/*.swift"
+      - "**/project.pbxproj"
 
 jobs:
   test:
@@ -170,8 +170,8 @@ name: Update Dashboards
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
-  workflow_dispatch:  # Manual trigger
+    - cron: "0 */6 * * *" # Every 6 hours
+  workflow_dispatch: # Manual trigger
 
 jobs:
   update:
@@ -206,13 +206,13 @@ Use Husky for local hooks, CI for enforcement:
 
 ## Best Practices
 
-| Practice | Why |
-|----------|-----|
-| Pin action versions | Reproducible builds |
-| Use `fetch-depth: 0` | Need full git history |
+| Practice                   | Why                              |
+| -------------------------- | -------------------------------- |
+| Pin action versions        | Reproducible builds              |
+| Use `fetch-depth: 0`       | Need full git history            |
 | Separate build/deploy jobs | Can retry deploy without rebuild |
-| Use environments | Track deployment status |
-| Cache node_modules | Faster builds |
+| Use environments           | Track deployment status          |
+| Cache node_modules         | Faster builds                    |
 
 ## Related
 

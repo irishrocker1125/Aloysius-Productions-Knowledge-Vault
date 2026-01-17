@@ -81,6 +81,7 @@ class AppNavigation {
 ```
 
 **When to use which:**
+
 - `ObservableObject` - Complex state with many subscribers
 - `@Observable` - Simpler objects, iOS 17+ only
 
@@ -135,6 +136,7 @@ enum StorySegment: Codable, Hashable {
 ```
 
 This single enum handles:
+
 - Static story text
 - Blanks with type requirements
 - Optional hints
@@ -157,6 +159,7 @@ enum BettingRound: Int, Comparable {
 ```
 
 The `Int` raw value gives us:
+
 - Natural ordering (Comparable for free)
 - Easy progression (`next` computed property)
 - Serialization if needed
@@ -190,6 +193,7 @@ mutating func add(word: String, for type: WordType) {
 ```
 
 Every external input gets:
+
 1. Trimmed
 2. Validated
 3. Rejected or accepted
@@ -209,6 +213,7 @@ Every project uses the same animation:
 ```
 
 Why these values?
+
 - **0.3 response** - Quick but not jarring
 - **0.7 damping** - Slight bounce, not rubbery
 
@@ -293,4 +298,4 @@ Next post: TypeScript patterns from Eliza and GTD. Different language, surprisin
 
 ---
 
-*This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context.*
+_This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context._

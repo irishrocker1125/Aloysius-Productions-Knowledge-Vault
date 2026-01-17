@@ -15,8 +15,8 @@ Pivoted from WordPress to Quartz static site generator for GitHub Pages deployme
 ## Strategic Blockers
 
 | Blocker | Impact | Resolution Path |
-|---------|--------|-----------------|
-| None | - | - |
+| ------- | ------ | --------------- |
+| None    | -      | -               |
 
 ---
 
@@ -30,12 +30,12 @@ Pivoted from WordPress to Quartz static site generator for GitHub Pages deployme
 
 ## Health Indicators
 
-| Metric | Status | Notes |
-|--------|--------|-------|
-| CI/CD | Ready | Quartz deploy workflow configured |
-| Dependencies | Pending | Run `npm ci` to install |
-| Documentation | Complete | README and templates in place |
-| Test Coverage | N/A | Content repository, no code tests |
+| Metric        | Status   | Notes                             |
+| ------------- | -------- | --------------------------------- |
+| CI/CD         | Ready    | Quartz deploy workflow configured |
+| Dependencies  | Pending  | Run `npm ci` to install           |
+| Documentation | Complete | README and templates in place     |
+| Test Coverage | N/A      | Content repository, no code tests |
 
 ---
 
@@ -48,14 +48,14 @@ Pivoted from WordPress to Quartz static site generator for GitHub Pages deployme
 
 ## Recent Updates
 
-| Date | Update |
-|------|--------|
-| 2026-01-14 | Pivoted to Quartz + GitHub Pages |
-| 2026-01-14 | Removed WordPress publishing pipeline |
-| 2026-01-14 | Reorganized Obsidian vault structure |
+| Date       | Update                                         |
+| ---------- | ---------------------------------------------- |
+| 2026-01-14 | Pivoted to Quartz + GitHub Pages               |
+| 2026-01-14 | Removed WordPress publishing pipeline          |
+| 2026-01-14 | Reorganized Obsidian vault structure           |
 | 2026-01-13 | Added testkitchen best practices documentation |
-| 2026-01-13 | Added PROJECT.md and ROADMAP.md |
+| 2026-01-13 | Added PROJECT.md and ROADMAP.md                |
 
 ---
 
-*This status is aggregated into the organization dashboard by ops-core.*
+_This status is aggregated into the organization dashboard by ops-core._

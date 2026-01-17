@@ -113,6 +113,7 @@ I didn't think of this case until I wrote the tests.
 ### UI Code
 
 Don't TDD SwiftUI views. Instead:
+
 - Test the ViewModel
 - Use previews for visual verification
 - Integration test critical flows
@@ -129,10 +130,10 @@ If you're just passing data through, skip the ceremony.
 
 ```typescript
 // This test is flaky
-it('should select a random response', () => {
-    const engine = createEngine(persona);
-    const response = engine.process('hello');
-    expect(responses).toContain(response);  // Always passes, proves nothing
+it("should select a random response", () => {
+  const engine = createEngine(persona);
+  const response = engine.process("hello");
+  expect(responses).toContain(response); // Always passes, proves nothing
 });
 ```
 
@@ -142,18 +143,18 @@ Inject the randomness:
 
 ```typescript
 function makeRng(values: number[]): () => number {
-    let i = 0;
-    return () => values[i++ % values.length];
+  let i = 0;
+  return () => values[i++ % values.length];
 }
 
-it('should select first response when rng returns 0', () => {
-    const engine = createEngine(persona, { rng: makeRng([0]) });
-    expect(engine.process('hello')).toBe(responses[0]);
+it("should select first response when rng returns 0", () => {
+  const engine = createEngine(persona, { rng: makeRng([0]) });
+  expect(engine.process("hello")).toBe(responses[0]);
 });
 
-it('should select last response when rng returns 0.99', () => {
-    const engine = createEngine(persona, { rng: makeRng([0.99]) });
-    expect(engine.process('hello')).toBe(responses[responses.length - 1]);
+it("should select last response when rng returns 0.99", () => {
+  const engine = createEngine(persona, { rng: makeRng([0.99]) });
+  expect(engine.process("hello")).toBe(responses[responses.length - 1]);
 });
 ```
 
@@ -182,12 +183,12 @@ func hearts(_ rank: Rank) -> Card {
 ```typescript
 // Factory for test personas
 function makePersona(rules: Rule[]): Persona {
-    return {
-        name: 'test',
-        rules,
-        greeting: 'Hello',
-        goodbye: 'Goodbye'
-    };
+  return {
+    name: "test",
+    rules,
+    greeting: "Hello",
+    goodbye: "Goodbye",
+  };
 }
 ```
 
@@ -283,6 +284,7 @@ The upfront investment pays off immediately for complex logic.
 ### Start Small
 
 Don't try to TDD everything. Start with:
+
 - Complex calculations
 - State machines
 - Input validation
@@ -290,6 +292,7 @@ Don't try to TDD everything. Start with:
 ### Write Tests You Trust
 
 If you don't trust the test, you'll ignore it. Make tests:
+
 - Fast (run in milliseconds)
 - Isolated (no shared state)
 - Readable (intent is clear)
@@ -298,16 +301,16 @@ If you don't trust the test, you'll ignore it. Make tests:
 
 ```typescript
 // Too much mocking
-it('should call service', () => {
-    const mockService = jest.fn();
-    component.doThing(mockService);
-    expect(mockService).toHaveBeenCalled();  // Tests nothing useful
+it("should call service", () => {
+  const mockService = jest.fn();
+  component.doThing(mockService);
+  expect(mockService).toHaveBeenCalled(); // Tests nothing useful
 });
 
 // Better: test actual behavior
-it('should return transformed data', () => {
-    const result = transform(inputData);
-    expect(result).toEqual(expectedOutput);
+it("should return transformed data", () => {
+  const result = transform(inputData);
+  expect(result).toEqual(expectedOutput);
 });
 ```
 
@@ -333,4 +336,4 @@ Final post: The GAS framework—the planning system that enabled 51 plans at 1.6
 
 ---
 
-*This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context.*
+_This post is part of the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for context._

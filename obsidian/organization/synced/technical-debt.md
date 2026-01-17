@@ -26,26 +26,25 @@ Aggregated technical debt across all projects. Updated daily from ops-core.
 
 ### [[projects/web/eliza|Eliza]]
 
-| Item | Priority | Notes |
-|------|----------|-------|
-| No persistent conversation history | low | By design for v1.0, could add later |
-| Rules hardcoded in module | low | Could externalize to JSON for easier editing |
+| Item                               | Priority | Notes                                        |
+| ---------------------------------- | -------- | -------------------------------------------- |
+| No persistent conversation history | low      | By design for v1.0, could add later          |
+| Rules hardcoded in module          | low      | Could externalize to JSON for easier editing |
 
 ### [[projects/web/soundboard|SoundBoard]]
 
-| Item | Priority | Notes |
-|------|----------|-------|
-| No persistence for custom sounds | medium | Planned for v0.3 |
-| Limited to 9 sounds | low | Grid layout constraint |
+| Item                             | Priority | Notes                  |
+| -------------------------------- | -------- | ---------------------- |
+| No persistence for custom sounds | medium   | Planned for v0.3       |
+| Limited to 9 sounds              | low      | Grid layout constraint |
 
 ### [[projects/web/aloysius-dashboard|aloysius-dashboard]]
 
-| Item | Priority | Notes |
-|------|----------|-------|
-| No tests | medium | Add unit tests for components |
-| No README | low | Document setup and usage |
-
+| Item      | Priority | Notes                         |
+| --------- | -------- | ----------------------------- |
+| No tests  | medium   | Add unit tests for components |
+| No README | low      | Document setup and usage      |
 
 ---
 
-*Last synced: 2026-01-16*
+_Last synced: 2026-01-16_

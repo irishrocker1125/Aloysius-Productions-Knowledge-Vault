@@ -52,6 +52,7 @@ Located in `obsidian/templates/`:
 ## Deployment
 
 On push to `master`, GitHub Actions:
+
 1. Builds the Quartz site from `obsidian/` content
 2. Deploys to GitHub Pages
 
@@ -59,4 +60,4 @@ First-time setup: Enable GitHub Pages in repository settings with source "GitHub
 
 ---
 
-*Part of the Aloysius Productions ecosystem.*
+_Part of the Aloysius Productions ecosystem._

@@ -103,10 +103,10 @@ jobs:
         id: trivy
         uses: aquasecurity/trivy-action@0.33.1
         with:
-          scan-type: 'fs'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          scan-type: "fs"
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
           ignore-unfixed: true
         continue-on-error: ${{ needs.load-config.outputs.mode == 'calibration' || needs.load-config.outputs.dep_blocking != 'true' }}
 
@@ -115,8 +115,8 @@ jobs:
         if: always()
         continue-on-error: true
         with:
-          sarif_file: 'trivy-results.sarif'
-          category: 'dependency-scan'
+          sarif_file: "trivy-results.sarif"
+          category: "dependency-scan"
 
   sast-scan:
     needs: load-config
@@ -146,7 +146,7 @@ jobs:
         continue-on-error: true
         with:
           sarif_file: semgrep.sarif
-          category: 'sast-scan'
+          category: "sast-scan"
 
   summary:
     name: Security Summary

@@ -6,14 +6,14 @@ This knowledge base is publicly deployed to GitHub Pages. Follow these guideline
 
 ### Never Commit These
 
-| Category | Examples | Why |
-|----------|----------|-----|
-| **API Keys** | `sk-abc123...`, `ghp_token`, `AKIA...` | Attackers scan public repos |
-| **Passwords** | `password: "mypassword"` | Credential exposure |
-| **Private URLs** | `https://192.168.1.1/api` | Reveals internal infrastructure |
-| **PII** | SSNs, full names with emails | Privacy violations |
-| **Internal Hostnames** | `internal.company.local` | Information disclosure |
-| **Database Connection Strings** | `mongodb://user:pass@host/db` | Direct database access |
+| Category                        | Examples                               | Why                             |
+| ------------------------------- | -------------------------------------- | ------------------------------- |
+| **API Keys**                    | `sk-abc123...`, `ghp_token`, `AKIA...` | Attackers scan public repos     |
+| **Passwords**                   | `password: "mypassword"`               | Credential exposure             |
+| **Private URLs**                | `https://192.168.1.1/api`              | Reveals internal infrastructure |
+| **PII**                         | SSNs, full names with emails           | Privacy violations              |
+| **Internal Hostnames**          | `internal.company.local`               | Information disclosure          |
+| **Database Connection Strings** | `mongodb://user:pass@host/db`          | Direct database access          |
 
 ### Acceptable Patterns
 
@@ -69,6 +69,7 @@ git commit --no-verify -m "message"
 ## CI Security Gate
 
 The deploy workflow includes a security gate that:
+
 1. Runs TruffleHog for verified secret detection
 2. Runs custom content pattern scanning
 3. **Blocks deployment** if any security issues are found
@@ -78,6 +79,7 @@ This is the last line of defense - pre-commit hooks are the first.
 ## Reporting Security Issues
 
 If you discover sensitive data in the repository:
+
 1. Do NOT create a public issue
 2. Contact the repository owner directly
 3. The data will need to be removed from git history (force push)

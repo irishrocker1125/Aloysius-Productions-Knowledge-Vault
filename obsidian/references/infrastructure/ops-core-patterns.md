@@ -42,6 +42,7 @@ def get_metrics(sources):
 ```
 
 **Key Points:**
+
 - Check if data sources are COMPLETE before calculating
 - Preserve previous values when accurate calculation is impossible
 - Never overwrite known-good data with known-incomplete data
@@ -73,6 +74,7 @@ def sync_dashboards():
 ```
 
 **Key Points:**
+
 - Use environment variables or detection for context
 - Check if directories exist before iterating
 - Design scripts to work in both local and CI contexts
@@ -116,6 +118,7 @@ def check_quota(current, limit, resource_name):
 ```
 
 **Key Points:**
+
 - 50% warning gives time to react
 - 80% critical triggers automated issue creation
 - Emoji indicators for quick visual scanning
@@ -125,12 +128,12 @@ def check_quota(current, limit, resource_name):
 
 **Lesson**: GitHub has 13+ separate rate limit categories, each with independent limits.
 
-| Resource | Limit | Notes |
-|----------|-------|-------|
-| REST API (core) | 5000/hr | Most common |
-| GraphQL | 5000/hr | Points-based |
-| Search API | 30/min | Very limited |
-| Code Search | 10/min | Extremely limited |
+| Resource        | Limit   | Notes             |
+| --------------- | ------- | ----------------- |
+| REST API (core) | 5000/hr | Most common       |
+| GraphQL         | 5000/hr | Points-based      |
+| Search API      | 30/min  | Very limited      |
+| Code Search     | 10/min  | Extremely limited |
 
 **Solution**: Track all resource limits, not just core:
 
@@ -156,10 +159,10 @@ def get_all_rate_limits():
 
 From the 2026-01-12 dashboard metrics corruption incident:
 
-| What Happened | Root Cause | Prevention |
-|--------------|------------|------------|
+| What Happened                            | Root Cause                              | Prevention                |
+| ---------------------------------------- | --------------------------------------- | ------------------------- |
 | Dashboard showed 11k LOC instead of 147k | Script ran in CI without local projects | Data preservation pattern |
-| All planning metrics showed 0 | Incomplete source calculation | Environment detection |
+| All planning metrics showed 0            | Incomplete source calculation           | Environment detection     |
 
 ## Related
 

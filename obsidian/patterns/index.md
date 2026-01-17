@@ -26,6 +26,7 @@ Reusable code patterns extracted from real projects.
 ## About This Section
 
 Each pattern includes:
+
 - **Problem** - What challenge it solves
 - **Solution** - The pattern implementation
 - **Usage** - Code examples

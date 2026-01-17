@@ -47,13 +47,13 @@ The "testkitchen" started as a place to experiment. Build small things. Learn by
 
 ### Completed (5)
 
-| Project | Platform | LOC | What It Does |
-|---------|----------|-----|--------------|
-| **Poker** | iOS/SwiftUI | 4,080 | Texas Hold'em against AI opponents |
-| **Eliza** | Node.js/Web | 1,523 | Pattern-matching chatbot with personas |
-| **GTD Inbox** | React | 970 | Frictionless thought capture |
-| **MadLibs** | iOS/SwiftUI | 1,523 | Word game with two play modes |
-| **QuestForge** | iOS/SwiftUI | 2,253 | Choice-driven narrative game |
+| Project        | Platform    | LOC   | What It Does                           |
+| -------------- | ----------- | ----- | -------------------------------------- |
+| **Poker**      | iOS/SwiftUI | 4,080 | Texas Hold'em against AI opponents     |
+| **Eliza**      | Node.js/Web | 1,523 | Pattern-matching chatbot with personas |
+| **GTD Inbox**  | React       | 970   | Frictionless thought capture           |
+| **MadLibs**    | iOS/SwiftUI | 1,523 | Word game with two play modes          |
+| **QuestForge** | iOS/SwiftUI | 2,253 | Choice-driven narrative game           |
 
 ### In Progress (3)
 
@@ -117,4 +117,4 @@ This series will publish weekly. Each post builds on the last, but you can jump 
 
 ---
 
-*This post is part of the "Building Apps in Public" series documenting lessons from the testkitchen projects.*
+_This post is part of the "Building Apps in Public" series documenting lessons from the testkitchen projects._

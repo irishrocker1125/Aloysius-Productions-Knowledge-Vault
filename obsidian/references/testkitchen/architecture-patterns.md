@@ -33,6 +33,7 @@ class GameState: ObservableObject {
 ```
 
 **Key Characteristics:**
+
 - Single `@Published` properties for reactive UI binding
 - Computed properties for derived state (no duplication)
 - All game flow logic centralized in ViewModel
@@ -55,6 +56,7 @@ enum Route: Hashable {
 ```
 
 **Key Characteristics:**
+
 - Lightweight navigation object
 - NavigationPath-based routing
 - Enum-driven routes for type safety
@@ -81,6 +83,7 @@ export function createEngine(
 ```
 
 **Key Characteristics:**
+
 - Accepts optional dependencies for testing
 - Personas as config objects, not classes
 - Deterministic testing via injected RNG
@@ -92,21 +95,24 @@ export function createEngine(
 
 ```typescript
 export type InboxAction =
-  | { type: 'LOAD'; items: InboxItem[] }
-  | { type: 'ADD'; content: string }
-  | { type: 'CATEGORIZE'; id: string; category: Category }
-  | { type: 'SNOOZE'; id: string };
+  | { type: "LOAD"; items: InboxItem[] }
+  | { type: "ADD"; content: string }
+  | { type: "CATEGORIZE"; id: string; category: Category }
+  | { type: "SNOOZE"; id: string };
 
 function inboxReducer(state: InboxState, action: InboxAction): InboxState {
   switch (action.type) {
-    case 'LOAD': return { ...state, items: action.items, isLoaded: true };
-    case 'ADD': return { ...state, items: [...state.items, createItem(action.content)] };
+    case "LOAD":
+      return { ...state, items: action.items, isLoaded: true };
+    case "ADD":
+      return { ...state, items: [...state.items, createItem(action.content)] };
     // ...
   }
 }
 ```
 
 **Key Characteristics:**
+
 - Discriminated unions for type-safe actions
 - Custom hook (useInbox) exposes typed actions
 - Reducer handles all state transitions
@@ -117,6 +123,7 @@ function inboxReducer(state: InboxState, action: InboxAction): InboxState {
 ### Single Source of Truth
 
 All projects follow this principle:
+
 - **Poker:** GameState owns all game data
 - **MadLibs:** AppNavigation + Storage services
 - **Eliza:** Engine instance owns conversation state
@@ -137,6 +144,7 @@ Successful projects use foundation-first delivery:
 ### Value Types for Models
 
 Both platforms use immutable value types:
+
 - **Swift:** structs for Card, Hand, Player, WordBank
 - **TypeScript:** readonly interfaces, factory functions
 

@@ -50,6 +50,7 @@ This isn't about AI, though. The principles work regardless of how you code.
 ### Break Work Into Phases
 
 A phase is a coherent unit of work:
+
 - Has a single, clear deliverable
 - Can be tested independently
 - Takes 1-3 "plans" to complete
@@ -57,6 +58,7 @@ A phase is a coherent unit of work:
 ### Break Phases Into Plans
 
 A plan is one focused session:
+
 - 45-120 minutes
 - Single objective
 - Explicit success criteria
@@ -89,17 +91,21 @@ Every execution session starts with a plan:
 
 ```markdown
 ## Objective
+
 Implement hand comparison and winner determination.
 
 ## Dependencies
+
 - Phase 01 complete (HandRank enum, EvaluatedHand struct)
 
 ## Success Criteria
+
 - [ ] compare() function returns correct winner
 - [ ] Tie detection works for identical ranks
 - [ ] Kicker comparison handles all edge cases
 
 ## Verification
+
 swift test --filter HandComparisonTests
 ```
 
@@ -117,20 +123,25 @@ After each session, write what actually happened:
 
 ```markdown
 ## What Was Done
+
 - Implemented hand comparison (compare function)
 - Added 15 test cases for edge cases
 - Fixed kicker comparison bug discovered during testing
 
 ## Deviations from Plan
+
 - Added split pot detection (not planned, but needed)
 
 ## Issues Discovered
+
 - Ace-low straight not handling correctly (deferred to Phase 3)
 
 ## Duration
+
 67 minutes
 
 ## Next Phase Readiness
+
 - [x] All tests passing
 - [x] Code reviewed
 - [ ] Ace-low straight fix (deferred)
@@ -170,13 +181,13 @@ Phase 5+: Features (polish, extensions)
 
 ### The Numbers
 
-| Project | Plans | Avg Duration | Result |
-|---------|-------|--------------|--------|
-| Poker | 8 | 60 min | v1.1 shipped |
-| Eliza | 8 | 45 min | v1.0 shipped |
-| QuestForge | 12 | 90 min | v1.2 shipped |
-| MadLibs | 14 | 45 min | v1.1 shipped |
-| GTD | 9 | 60 min | v1.0 shipped |
+| Project    | Plans | Avg Duration | Result       |
+| ---------- | ----- | ------------ | ------------ |
+| Poker      | 8     | 60 min       | v1.1 shipped |
+| Eliza      | 8     | 45 min       | v1.0 shipped |
+| QuestForge | 12    | 90 min       | v1.2 shipped |
+| MadLibs    | 14    | 45 min       | v1.1 shipped |
+| GTD        | 9     | 60 min       | v1.0 shipped |
 
 **Totals:** 51 plans, ~1.6 hours average
 
@@ -196,8 +207,9 @@ Phase 5+: Features (polish, extensions)
 **Problem:** Discovering unknowns mid-session.
 
 **Solution:** Flag research upfront:
+
 ```yaml
-type: research  # vs. tdd or execute
+type: research # vs. tdd or execute
 ```
 
 Research sessions explore. Execution sessions deliver.
@@ -207,8 +219,10 @@ Research sessions explore. Execution sessions deliver.
 **Problem:** "Just one more thing..."
 
 **Solution:** Deferred items in SUMMARY:
+
 ```markdown
 ## Deferred
+
 - Animation polish (moved to v1.1)
 - Settings screen (not MVP)
 ```
@@ -220,8 +234,10 @@ Write it down. Move on.
 **Problem:** Forgetting where you left off.
 
 **Solution:** STATE.md:
+
 ```markdown
 ## Current Position
+
 - Phase: 3 of 4
 - Plan: 1 of 2
 - Status: In progress
@@ -236,20 +252,24 @@ The single source of truth for project position:
 
 ```markdown
 ## Current Position
+
 - Phase: 3 of 4 (game-ui)
 - Plan: 2 of 3
 - Status: Ready to execute
 - Last activity: 2026-01-12 — Completed betting controls
 
 ## Progress
+
 ████████████░░░░ 75%
 
 ## Accumulated Decisions
+
 - Using spring animation (0.3s, 0.7 damping)
 - Cards dealt face-down, revealed on showdown
 - AI thinking delay: 0.5-1.5 seconds
 
 ## Deferred Issues
+
 - Ace-low straight (Phase 3, Plan 3)
 - Sound effects (v1.1)
 ```
@@ -320,6 +340,7 @@ The framework doesn't do the work. It makes the work visible.
 51 plans. 1.6 hours average. 5 projects shipped.
 
 The secret isn't working faster. It's:
+
 - Knowing exactly what "done" means
 - Breaking work into testable pieces
 - Learning from each session
@@ -328,4 +349,4 @@ GAS gave me that structure. The results speak for themselves.
 
 ---
 
-*This post concludes the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for the full index.*
+_This post concludes the "Building Apps in Public" series. See the [overview](/blog/testkitchen-overview-10k-lines) for the full index._

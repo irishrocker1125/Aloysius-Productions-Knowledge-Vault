@@ -23,11 +23,13 @@ Breaking work into small, verifiable tasks.
 ## Task N: [Name]
 
 **Files:**
+
 - Create: `path/to/new/file.ts`
 - Modify: `path/to/existing/file.ts`
 - Test: `path/to/test/file.test.ts`
 
 **Steps:**
+
 1. Write failing test for [specific behavior]
 2. Verify test fails for expected reason
 3. Implement minimal code to pass
@@ -52,6 +54,7 @@ npm test -- --grep "specific test"
 **Tech Stack:** List of technologies
 
 ## Tasks
+
 [2-5 minute tasks follow]
 ```
 

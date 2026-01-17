@@ -55,7 +55,8 @@ Symptom → Immediate Cause → What Called This? → Keep Tracing → Original 
 ### When Manual Tracing Fails
 
 Add instrumentation:
-- Debug statements *before* dangerous operations
+
+- Debug statements _before_ dangerous operations
 - Use `console.error()` in tests (loggers may be suppressed)
 - Include context: paths, env vars, timestamps
 - Capture stack: `new Error().stack`

@@ -42,14 +42,14 @@ src/
 
 ## Naming Conventions
 
-| Type | Convention | Examples |
-|------|------------|----------|
-| Interfaces | PascalCase | `InboxItem`, `Rule`, `Engine` |
-| Types | PascalCase | `InboxAction`, `Category`, `WordType` |
-| Functions | camelCase | `createEngine`, `isProcessed`, `getPersona` |
-| Constants | UPPER_SNAKE_CASE | `MAX_LENGTH`, `STORAGE_KEY` |
-| Files (modules) | kebab-case | `inbox-context.ts`, `story-storage.ts` |
-| Files (components) | PascalCase | `CaptureInput.tsx`, `InboxList.tsx` |
+| Type               | Convention       | Examples                                    |
+| ------------------ | ---------------- | ------------------------------------------- |
+| Interfaces         | PascalCase       | `InboxItem`, `Rule`, `Engine`               |
+| Types              | PascalCase       | `InboxAction`, `Category`, `WordType`       |
+| Functions          | camelCase        | `createEngine`, `isProcessed`, `getPersona` |
+| Constants          | UPPER_SNAKE_CASE | `MAX_LENGTH`, `STORAGE_KEY`                 |
+| Files (modules)    | kebab-case       | `inbox-context.ts`, `story-storage.ts`      |
+| Files (components) | PascalCase       | `CaptureInput.tsx`, `InboxList.tsx`         |
 
 ## Type Patterns
 
@@ -57,17 +57,19 @@ src/
 
 ```typescript
 export type InboxAction =
-  | { type: 'LOAD'; items: InboxItem[] }
-  | { type: 'ADD'; content: string }
-  | { type: 'CATEGORIZE'; id: string; category: Category }
-  | { type: 'SNOOZE'; id: string }
-  | { type: 'DELETE'; id: string };
+  | { type: "LOAD"; items: InboxItem[] }
+  | { type: "ADD"; content: string }
+  | { type: "CATEGORIZE"; id: string; category: Category }
+  | { type: "SNOOZE"; id: string }
+  | { type: "DELETE"; id: string };
 
 // Exhaustive handling in reducer
 function inboxReducer(state: InboxState, action: InboxAction): InboxState {
   switch (action.type) {
-    case 'LOAD': return { ...state, items: action.items };
-    case 'ADD': return { ...state, items: [...state.items, createItem(action.content)] };
+    case "LOAD":
+      return { ...state, items: action.items };
+    case "ADD":
+      return { ...state, items: [...state.items, createItem(action.content)] };
     // TypeScript ensures all cases are handled
   }
 }
@@ -76,7 +78,7 @@ function inboxReducer(state: InboxState, action: InboxAction): InboxState {
 ### Branded Types (State Machines)
 
 ```typescript
-type ConversationState = 'greeting' | 'main' | 'goodbye';
+type ConversationState = "greeting" | "main" | "goodbye";
 
 interface Engine {
   getState(): ConversationState;
@@ -88,8 +90,8 @@ interface Engine {
 ### Type-First Imports
 
 ```typescript
-import type { InboxItem, Category } from '@/types';
-import { isProcessed, createInboxItem } from '@/types';
+import type { InboxItem, Category } from "@/types";
+import { isProcessed, createInboxItem } from "@/types";
 ```
 
 ## Export Patterns
@@ -98,19 +100,19 @@ import { isProcessed, createInboxItem } from '@/types';
 
 ```typescript
 // src/middleware/index.ts
-export { validateMessage } from './validation';
-export { errorHandler } from './errors';
-export { securityHeaders } from './security';
-export { sessionMiddleware } from './session';
+export { validateMessage } from "./validation";
+export { errorHandler } from "./errors";
+export { securityHeaders } from "./security";
+export { sessionMiddleware } from "./session";
 ```
 
 ### Public API (index.ts)
 
 ```typescript
 // src/index.ts - Clean public API
-export { createEngine } from './engine';
-export type { Engine, Persona, Rule } from './types';
-export { classicPersona, supportivePersona } from './personas';
+export { createEngine } from "./engine";
+export type { Engine, Persona, Rule } from "./types";
+export { classicPersona, supportivePersona } from "./personas";
 ```
 
 ## Module Patterns
@@ -155,16 +157,16 @@ export { classicPersona, supportivePersona } from './personas';
 export class AppError extends Error {
   constructor(
     public statusCode: number,
-    message: string
+    message: string,
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = "AppError";
   }
 }
 
 // Usage in middleware
 if (!isValidMessage(input)) {
-  throw new AppError(400, 'Message must be a non-empty string');
+  throw new AppError(400, "Message must be a non-empty string");
 }
 ```
 
@@ -174,7 +176,7 @@ if (!isValidMessage(input)) {
 interface InboxState {
   items: InboxItem[];
   isLoaded: boolean;
-  saveError: boolean;  // Track storage errors
+  saveError: boolean; // Track storage errors
 }
 ```
 
@@ -184,21 +186,27 @@ interface InboxState {
 
 ```typescript
 const MAX_MESSAGE_LENGTH = 1000;
-const repeatedChar = /(.)\1{500,}/;  // ReDoS protection
+const repeatedChar = /(.)\1{500,}/; // ReDoS protection
 
-export function validateMessage(req: Request, res: Response, next: NextFunction) {
+export function validateMessage(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const { message } = req.body;
 
-  if (typeof message !== 'string') {
-    return next(new AppError(400, 'Message must be a string'));
+  if (typeof message !== "string") {
+    return next(new AppError(400, "Message must be a string"));
   }
 
   if (message.length > MAX_MESSAGE_LENGTH) {
-    return next(new AppError(400, `Message exceeds ${MAX_MESSAGE_LENGTH} characters`));
+    return next(
+      new AppError(400, `Message exceeds ${MAX_MESSAGE_LENGTH} characters`),
+    );
   }
 
   if (repeatedChar.test(message)) {
-    return next(new AppError(400, 'Message contains suspicious patterns'));
+    return next(new AppError(400, "Message contains suspicious patterns"));
   }
 
   next();
@@ -209,7 +217,7 @@ export function validateMessage(req: Request, res: Response, next: NextFunction)
 
 ```typescript
 app.use(helmet());
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: "10kb" }));
 ```
 
 ## React Patterns
@@ -220,7 +228,7 @@ app.use(express.json({ limit: '10kb' }));
 export function useInbox() {
   const context = useContext(InboxContext);
   if (!context) {
-    throw new Error('useInbox must be used within InboxProvider');
+    throw new Error("useInbox must be used within InboxProvider");
   }
   return context;
 }
@@ -231,12 +239,15 @@ export function useInbox() {
 ```typescript
 const unprocessedItems = useMemo(
   () => state.items.filter((item) => !isProcessed(item)),
-  [state.items]
+  [state.items],
 );
 
-const handleAdd = useCallback((content: string) => {
-  dispatch({ type: 'ADD', content });
-}, [dispatch]);
+const handleAdd = useCallback(
+  (content: string) => {
+    dispatch({ type: "ADD", content });
+  },
+  [dispatch],
+);
 ```
 
 ## Testing Conventions
@@ -248,14 +259,14 @@ const handleAdd = useCallback((content: string) => {
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'node',  // or 'jsdom' for React
-    setupFiles: ['./tests/setup.ts'],
+    environment: "node", // or 'jsdom' for React
+    setupFiles: ["./tests/setup.ts"],
     coverage: {
-      provider: 'v8',
-      include: ['src/**/*.ts'],
-      exclude: ['**/*.d.ts']
-    }
-  }
+      provider: "v8",
+      include: ["src/**/*.ts"],
+      exclude: ["**/*.d.ts"],
+    },
+  },
 });
 ```
 
@@ -270,15 +281,15 @@ function makeRng(values: number[]): () => number {
 
 // Factory for test personas
 function makePersona(rules: Rule[]): Persona {
-  return { name: 'test', rules, greeting: 'Hello' };
+  return { name: "test", rules, greeting: "Hello" };
 }
 ```
 
 ### Arrange-Act-Assert
 
 ```typescript
-describe('createEngine', () => {
-  it('should start in greeting state', () => {
+describe("createEngine", () => {
+  it("should start in greeting state", () => {
     // Arrange
     const persona = makePersona([]);
 
@@ -286,7 +297,7 @@ describe('createEngine', () => {
     const engine = createEngine(persona);
 
     // Assert
-    expect(engine.getState()).toBe('greeting');
+    expect(engine.getState()).toBe("greeting");
   });
 });
 ```
@@ -296,7 +307,7 @@ describe('createEngine', () => {
 - [ ] Discriminated unions for action types
 - [ ] Type-first imports separated from value imports
 - [ ] Barrel exports for clean module APIs
-- [ ] Path aliases configured (@/*)
+- [ ] Path aliases configured (@/\*)
 - [ ] ESM module format throughout
 - [ ] Input validation at boundaries
 - [ ] Custom hooks for shared logic

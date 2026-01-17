@@ -20,6 +20,7 @@ Core development practices and workflows.
 ## Philosophy
 
 Build software iteratively with:
+
 - **Test-first development** - Write tests before code
 - **Small, focused commits** - One logical change at a time
 - **Continuous verification** - Run tests after every change

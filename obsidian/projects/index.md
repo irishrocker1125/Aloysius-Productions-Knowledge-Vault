@@ -27,6 +27,7 @@ Technical decisions, patterns, and lessons learned from individual projects.
 ## About This Section
 
 Each project page documents:
+
 - **Key Decisions** - Architectural and implementation choices
 - **Patterns Established** - Reusable patterns discovered
 - **Lessons Learned** - What worked, what didn't

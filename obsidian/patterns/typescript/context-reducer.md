@@ -134,14 +134,14 @@ function ItemList() {
 // For complex actions, create helper functions
 const actions = {
   addItem: (item: Item): AppAction => ({
-    type: 'ADD_ITEM',
-    payload: item
+    type: "ADD_ITEM",
+    payload: item,
   }),
 
   removeItem: (id: string): AppAction => ({
-    type: 'REMOVE_ITEM',
-    payload: id
-  })
+    type: "REMOVE_ITEM",
+    payload: id,
+  }),
 };
 
 // Usage
@@ -151,18 +151,18 @@ dispatch(actions.addItem(newItem));
 ## Testing
 
 ```typescript
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act } from "@testing-library/react";
 
-describe('AppContext', () => {
-  it('adds items', () => {
+describe("AppContext", () => {
+  it("adds items", () => {
     const { result } = renderHook(() => useApp(), {
-      wrapper: AppProvider
+      wrapper: AppProvider,
     });
 
     act(() => {
       result.current.dispatch({
-        type: 'ADD_ITEM',
-        payload: { id: '1', title: 'Test' }
+        type: "ADD_ITEM",
+        payload: { id: "1", title: "Test" },
       });
     });
 
@@ -174,12 +174,14 @@ describe('AppContext', () => {
 ## Trade-offs
 
 ### When to Use
+
 - Medium complexity apps
 - Shared state across 3+ components
 - Need for predictable state updates
 - Want to avoid external dependencies
 
 ### When NOT to Use
+
 - Simple apps (useState is enough)
 - Very complex apps (consider Zustand/Redux)
 - Performance-critical with frequent updates

@@ -16,15 +16,16 @@ Analysis of what drives fast, successful delivery across 8 testkitchen projects.
 
 ### Project Summary
 
-| Project | LOC | Plans | Avg Duration | Status |
-|---------|-----|-------|--------------|--------|
-| Poker | 4,080 | 8 | ~60 min | v1.1 shipped |
-| Eliza | 1,523 | 8 | ~45 min | v1.0 shipped |
-| QuestForge | 2,253 | 12 | ~90 min | v1.2 shipped |
-| MadLibs | 1,523 | 14 | ~45 min | v1.1 shipped |
-| GTD | 970 | 9 | ~60 min | v1.0 shipped |
+| Project    | LOC   | Plans | Avg Duration | Status       |
+| ---------- | ----- | ----- | ------------ | ------------ |
+| Poker      | 4,080 | 8     | ~60 min      | v1.1 shipped |
+| Eliza      | 1,523 | 8     | ~45 min      | v1.0 shipped |
+| QuestForge | 2,253 | 12    | ~90 min      | v1.2 shipped |
+| MadLibs    | 1,523 | 14    | ~45 min      | v1.1 shipped |
+| GTD        | 970   | 9     | ~60 min      | v1.0 shipped |
 
 **Totals:**
+
 - **~10,349 LOC** across 8 projects
 - **~51 plans** completed
 - **~1.6 hours** average per plan
@@ -33,11 +34,13 @@ Analysis of what drives fast, successful delivery across 8 testkitchen projects.
 ### Delivery Timeline Examples
 
 **Poker (fastest):**
+
 - Started: 2026-01-11
 - v1.0 shipped: 2026-01-11 (same day, 4 phases)
 - v1.1 shipped: 2026-01-12 (next day, 3 phases)
 
 **Eliza:**
+
 - Started: 2026-01-10
 - v1.0 shipped: 2026-01-10 (same day, 7 phases)
 
@@ -52,11 +55,13 @@ Foundation → Infrastructure → Features
 ```
 
 **Why it works:**
+
 - Each layer is testable in isolation
 - Dependencies flow one direction
 - No circular dependencies or rework
 
 **Example (Poker):**
+
 1. Hand Evaluation (pure logic, no UI)
 2. Game Flow (orchestration, no UI)
 3. AI Players (decision engine, no UI)
@@ -65,6 +70,7 @@ Foundation → Infrastructure → Features
 ### 2. Tight Phase Scoping
 
 **Optimal phase characteristics:**
+
 - 1-3 plans per phase
 - 45-120 minutes per plan
 - Single, clear deliverable
@@ -84,6 +90,7 @@ refactor: extract card sorting helper
 ```
 
 **Benefits:**
+
 - Bugs caught early (before they compound)
 - Clear audit trail for debugging
 - Confidence to refactor
@@ -95,11 +102,13 @@ Plans that state dependencies clearly execute faster:
 
 ```markdown
 ## Dependencies
+
 - Requires Phase 01 (HandRank enum, EvaluatedHand struct)
 - Uses CardSorting from 01-01
 ```
 
 **Why it works:**
+
 - No ambiguity about prerequisites
 - Can parallelize independent work
 - Clear when blocked
@@ -115,6 +124,7 @@ swift test --filter HandComparisonTests
 ```
 
 **Why it works:**
+
 - Objective success criteria
 - Can automate checks
 - No debate about "done"
@@ -126,11 +136,13 @@ swift test --filter HandComparisonTests
 **Problem:** Discovering unknowns during implementation.
 
 **Solution:** Flag research upfront:
+
 ```yaml
-type: research  # or: tdd, execute
+type: research # or: tdd, execute
 ```
 
 Research phases:
+
 - Investigate options
 - Prototype approaches
 - Document findings
@@ -141,8 +153,10 @@ Research phases:
 **Problem:** Adding "just one more thing" during a phase.
 
 **Solution:** Deferred items log in SUMMARY.md:
+
 ```markdown
 ## Deferred
+
 - Animation polish (not in scope for v1.0)
 - Settings screen (moved to Phase 5)
 ```
@@ -152,6 +166,7 @@ Research phases:
 **Problem:** Context lost between sessions.
 
 **Solution:** STATE.md with:
+
 - Current position (phase/plan)
 - Last activity
 - Accumulated decisions
@@ -162,6 +177,7 @@ Research phases:
 **Problem:** Same mistakes repeated.
 
 **Solution:** Every plan gets a SUMMARY.md documenting:
+
 - Actual vs. planned
 - Issues encountered
 - Decisions made
@@ -197,6 +213,7 @@ Research phases:
 **Pattern:** Logic → AI → UI
 
 High velocity because:
+
 - Game rules are pure functions
 - AI can be tested with deterministic inputs
 - UI is final integration layer
@@ -206,6 +223,7 @@ High velocity because:
 **Pattern:** Engine → CLI → Web
 
 High velocity because:
+
 - Core logic is platform-agnostic
 - CLI validates API design
 - Web adds convenience layer
@@ -215,6 +233,7 @@ High velocity because:
 **Pattern:** Data → Logic → Presentation
 
 High velocity because:
+
 - Content (stories) is independent
 - Logic is simple transformation
 - UI is primarily display

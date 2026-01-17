@@ -9,29 +9,29 @@
 ## Tech Stack
 
 | Technology | Version | Purpose | Added In | Notes |
-|------------|---------|---------|----------|-------|
+| ---------- | ------- | ------- | -------- | ----- |
 
 ---
 
 ## Dependencies
 
 | Package | Version | Critical? | Purpose |
-|---------|---------|-----------|---------|
+| ------- | ------- | --------- | ------- |
 
 ---
 
 ## Shared Assets
 
 | Asset | Type | Location | Shared? |
-|-------|------|----------|---------|
+| ----- | ---- | -------- | ------- |
 
 ---
 
 ## Capacity Notes
 
 | Aspect | Current State | Notes |
-|--------|---------------|-------|
+| ------ | ------------- | ----- |
 
 ---
 
-*This resource manifest is aggregated into the organization Resource Registry by ops-core.*
+_This resource manifest is aggregated into the organization Resource Registry by ops-core._
