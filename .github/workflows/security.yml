@@ -1,11 +1,14 @@
-# Security Check - Calls centralized Security Sentinel workflow
+# Security Check - Inline Security Scanning
+#
+# Note: Cannot use reusable workflow from private ops-core repo
+# (requires GitHub Enterprise). This is a local copy.
 #
 # Runs on push and pull request to scan for:
 # - Hardcoded secrets (TruffleHog)
 # - Vulnerable dependencies (Trivy)
 # - Insecure code patterns (Semgrep)
 #
-# All checks are warn-only (non-blocking)
+# All checks are warn-only (non-blocking) in calibration mode
 
 name: Security Check
 
@@ -15,17 +18,161 @@ on:
   pull_request:
     branches: [master]
 
-# Permissions required for security scanning
 permissions:
   contents: read
   security-events: write
   actions: read
 
 jobs:
-  security:
-    uses: irishrocker1125/aloysiusproductions-ops-core/.github/workflows/security-sentinel.yml@main
+  load-config:
+    name: Load Security Config
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.config.outputs.mode }}
+      secret_blocking: ${{ steps.config.outputs.secret_blocking }}
+      dep_blocking: ${{ steps.config.outputs.dep_blocking }}
+      sast_blocking: ${{ steps.config.outputs.sast_blocking }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Parse Security Config
+        id: config
+        run: |
+          if [ -f ".security-config.yml" ]; then
+            MODE=$(grep -E "^mode:" .security-config.yml | awk '{print $2}' || echo "calibration")
+            CALIBRATION_END=$(grep -E "^calibration_end_date:" .security-config.yml | awk '{print $2}' || echo "")
+
+            if [ -n "$CALIBRATION_END" ]; then
+              TODAY=$(date +%Y-%m-%d)
+              if [[ "$TODAY" > "$CALIBRATION_END" ]] || [[ "$TODAY" == "$CALIBRATION_END" ]]; then
+                MODE="enforcing"
+              fi
+            fi
+
+            SECRET_BLOCKING=$(grep -A1 "secret_scan:" .security-config.yml | grep "blocking:" | awk '{print $2}' || echo "true")
+            DEP_BLOCKING=$(grep -A1 "dependency_scan:" .security-config.yml | grep "blocking:" | awk '{print $2}' || echo "false")
+            SAST_BLOCKING=$(grep -A1 "sast_scan:" .security-config.yml | grep "blocking:" | awk '{print $2}' || echo "false")
+          else
+            MODE="calibration"
+            SECRET_BLOCKING="true"
+            DEP_BLOCKING="false"
+            SAST_BLOCKING="false"
+          fi
+
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          echo "secret_blocking=$SECRET_BLOCKING" >> $GITHUB_OUTPUT
+          echo "dep_blocking=$DEP_BLOCKING" >> $GITHUB_OUTPUT
+          echo "sast_blocking=$SAST_BLOCKING" >> $GITHUB_OUTPUT
+          echo "Security mode: $MODE"
+
+  secret-scan:
+    needs: load-config
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog Secret Scan
+        id: trufflehog
+        uses: trufflesecurity/trufflehog@v3.88.0
+        with:
+          path: ./
+          extra_args: --json
+        continue-on-error: ${{ needs.load-config.outputs.secret_blocking != 'true' }}
+
+  dependency-scan:
+    needs: load-config
+    name: Dependency Scanning
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
       actions: read
-    secrets: inherit
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Trivy Vulnerability Scanner
+        id: trivy
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: 'fs'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+        continue-on-error: ${{ needs.load-config.outputs.mode == 'calibration' || needs.load-config.outputs.dep_blocking != 'true' }}
+
+      - name: Upload Trivy SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'dependency-scan'
+
+  sast-scan:
+    needs: load-config
+    name: Static Analysis (SAST)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Semgrep SAST
+        id: semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+          generateSarif: "1"
+        continue-on-error: ${{ needs.load-config.outputs.mode == 'calibration' || needs.load-config.outputs.sast_blocking != 'true' }}
+
+      - name: Upload Semgrep SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: semgrep.sarif
+          category: 'sast-scan'
+
+  summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: [load-config, secret-scan, dependency-scan, sast-scan]
+    if: always()
+    steps:
+      - name: Generate Summary
+        run: |
+          MODE="${{ needs.load-config.outputs.mode }}"
+
+          echo "## Security Check Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** $MODE" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status | Blocking |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Secret Scan | ${{ needs.secret-scan.result }} | ${{ needs.load-config.outputs.secret_blocking }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Scan | ${{ needs.dependency-scan.result }} | ${{ needs.load-config.outputs.dep_blocking }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SAST Scan | ${{ needs.sast-scan.result }} | ${{ needs.load-config.outputs.sast_blocking }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$MODE" = "calibration" ]; then
+            echo "_Running in calibration mode. Most checks warn only (except verified secrets)._" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "_Running in enforcing mode. Checks may block based on configuration._" >> $GITHUB_STEP_SUMMARY
+          fi
