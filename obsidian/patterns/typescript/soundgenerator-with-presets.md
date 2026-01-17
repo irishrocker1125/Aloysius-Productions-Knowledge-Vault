@@ -1,7 +1,7 @@
 ---
 title: "SoundGenerator with presets"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: pattern
 language: typescript
 reusable: true
@@ -28,4 +28,4 @@ Oscillator synthesis with ADSR envelopes
 
 ## Source
 
-Synced from ops-core learning data. Original source: [[projects/web/soundboard|SoundBoard]]
+Synced from ops-core learning data. Original source: [[projects/web/soundboard|SoundBoard]]  # noqa: E501

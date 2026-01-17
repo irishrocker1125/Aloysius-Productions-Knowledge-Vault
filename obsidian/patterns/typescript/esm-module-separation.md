@@ -1,7 +1,7 @@
 ---
 title: "ESM module separation"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: pattern
 language: typescript
 reusable: true
@@ -28,4 +28,4 @@ engine/rules/cli separation for clean architecture
 
 ## Source
 
-Synced from ops-core learning data. Original source: [[projects/web/eliza|Eliza]]
+Synced from ops-core learning data. Original source: [[projects/web/eliza|Eliza]]  # noqa: E501

@@ -1,7 +1,7 @@
 ---
 title: "localStorage validation"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: pattern
 language: typescript
 reusable: true
@@ -28,4 +28,4 @@ Validate stored values against allowed options
 
 ## Source
 
-Synced from ops-core learning data. Original source: [[projects/web/aloysius-dashboard|aloysius-dashboard]]
+Synced from ops-core learning data. Original source: [[projects/web/aloysius-dashboard|aloysius-dashboard]]  # noqa: E501

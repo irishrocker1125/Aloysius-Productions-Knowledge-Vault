@@ -1,7 +1,7 @@
 ---
 title: "CSS co-location"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: pattern
 language: typescript
 reusable: true
@@ -28,4 +28,4 @@ Component.tsx paired with Component.css
 
 ## Source
 
-Synced from ops-core learning data. Original source: [[projects/web/soundboard|SoundBoard]]
+Synced from ops-core learning data. Original source: [[projects/web/soundboard|SoundBoard]]  # noqa: E501

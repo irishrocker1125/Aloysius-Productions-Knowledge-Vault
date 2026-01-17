@@ -1,7 +1,7 @@
 ---
 title: "Real-time ADSR visualization"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: research
 status: active
 outcome: partial
@@ -31,4 +31,4 @@ See source project.
 
 ## Source
 
-Synced from ops-core learning data. See [[projects/web/soundboard|SoundBoard]] for full context.
+Synced from ops-core learning data. See [[projects/web/soundboard|SoundBoard]] for full context.  # noqa: E501

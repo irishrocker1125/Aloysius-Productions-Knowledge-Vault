@@ -1,7 +1,7 @@
 ---
 title: "Capture group substitution"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: research
 status: completed
 outcome: success
@@ -31,4 +31,4 @@ $N replacement in assembleResponse
 
 ## Source
 
-Synced from ops-core learning data. See [[projects/web/eliza|Eliza]] for full context.
+Synced from ops-core learning data. See [[projects/web/eliza|Eliza]] for full context.  # noqa: E501

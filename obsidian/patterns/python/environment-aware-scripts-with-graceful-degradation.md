@@ -1,7 +1,7 @@
 ---
 title: "Environment-aware scripts with graceful degradation"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: pattern
 language: python
 reusable: true
@@ -28,4 +28,4 @@ Scripts that run in both local and CI
 
 ## Source
 
-Synced from ops-core learning data. Original source: [[projects/infrastructure/aloysiusproductions-ops-core|aloysiusproductions-ops-core]]
+Synced from ops-core learning data. Original source: [[projects/infrastructure/aloysiusproductions-ops-core|aloysiusproductions-ops-core]]  # noqa: E501

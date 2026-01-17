@@ -1,7 +1,7 @@
 ---
 title: "Feature stripping approach"
-created: 2026-01-16
-updated: 2026-01-16
+created: 2026-01-17
+updated: 2026-01-17
 type: research
 status: completed
 outcome: success
@@ -31,4 +31,4 @@ Removed encryption/AI
 
 ## Source
 
-Synced from ops-core learning data. See [[projects/general/correspondence-chess-pro|Correspondence-Chess-Pro]] for full context.
+Synced from ops-core learning data. See [[projects/general/correspondence-chess-pro|Correspondence-Chess-Pro]] for full context.  # noqa: E501
