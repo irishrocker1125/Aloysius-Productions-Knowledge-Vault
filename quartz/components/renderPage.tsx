@@ -32,7 +32,8 @@ export function pageResources(
   baseDir: FullSlug | RelativeURL,
   staticResources: StaticResources,
 ): StaticResources {
-  const contentIndexPath = "/static/contentIndex.json";
+  // Use relative path to ensure it works on all pages and subdirectories
+  const contentIndexPath = joinSegments(baseDir, "static/contentIndex.json");
   const contentIndexScript = `const fetchData = () => fetch("${contentIndexPath}").then(data => data.json())`;
 
   const resources: StaticResources = {
