@@ -1,0 +1,218 @@
+@use "../../styles/variables.scss" as *;
+
+.timeline-count {
+  color: var(--gray);
+  margin-bottom: 2rem;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+
+  // Vertical rail
+  &::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--lightgray);
+  }
+}
+
+// Year section
+.timeline-year-section {
+  margin-bottom: 2rem;
+}
+
+.timeline-year {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: $boldWeight;
+    color: var(--dark);
+  }
+}
+
+.timeline-year-marker {
+  position: absolute;
+  left: -34px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--secondary);
+  border: 3px solid var(--light);
+  box-shadow: 0 0 0 2px var(--secondary);
+}
+
+// Month section
+.timeline-month-section {
+  margin-bottom: 1.5rem;
+  margin-left: 1rem;
+}
+
+.timeline-month {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: $semiBoldWeight;
+    color: var(--darkgray);
+  }
+}
+
+.timeline-month-marker {
+  position: absolute;
+  left: -45px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tertiary);
+  border: 2px solid var(--light);
+}
+
+// Entry cards
+.timeline-entries {
+  margin-left: 0.5rem;
+}
+
+.timeline-entry {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.timeline-entry-connector {
+  position: absolute;
+  left: -38px;
+  top: 12px;
+  width: 30px;
+  height: 2px;
+  background: var(--lightgray);
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gray);
+  }
+}
+
+.timeline-entry-card {
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.timeline-entry-date {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-entry-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: $semiBoldWeight;
+
+  a {
+    color: var(--dark);
+    text-decoration: none;
+    background-color: transparent;
+
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}
+
+.timeline-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0.5rem 0 0 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    background: var(--highlight);
+    border-radius: 4px;
+    color: var(--secondary);
+    text-decoration: none;
+
+    &:hover {
+      background: var(--secondary);
+      color: var(--light);
+    }
+  }
+}
+
+// Mobile adjustments
+@media all and ($mobile) {
+  .timeline {
+    padding-left: 30px;
+
+    &::before {
+      left: 6px;
+    }
+  }
+
+  .timeline-year-marker {
+    left: -28px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .timeline-month-marker {
+    left: -39px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .timeline-entry-connector {
+    left: -32px;
+    width: 24px;
+
+    &::after {
+      width: 6px;
+      height: 6px;
+      top: -2px;
+    }
+  }
+
+  .timeline-entry-tags {
+    display: none;
+  }
+}
