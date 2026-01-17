@@ -196,7 +196,7 @@ async function setupExplorer(currentSlug: FullSlug) {
       ]),
     );
 
-    const data = await fetchData;
+    const data = await fetchData();
     const entries = [...Object.entries(data)] as [FullSlug, ContentDetails][];
     const trie = FileTrieNode.fromEntries(entries);
 
