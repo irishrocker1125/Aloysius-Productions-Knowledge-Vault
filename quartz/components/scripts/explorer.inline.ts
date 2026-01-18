@@ -352,14 +352,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   }
 });
 
-// Initialize explorer on page load
-const pageSlug = document.body.getAttribute("data-slug") as FullSlug;
-if (pageSlug) {
-  setupExplorer(pageSlug).catch((error) => {
-    console.error("Failed to setup explorer on page load:", error);
-  });
-}
-
 window.addEventListener("resize", function () {
   // Desktop explorer opens by default, and it stays open when the window is resized
   // to mobile screen size. Applies `no-scroll` to <html> in this edge case.
