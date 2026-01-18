@@ -38,7 +38,7 @@ Aggregated technical debt across all projects. Updated daily from ops-core.
 | No persistence for custom sounds | medium | Planned for v0.3 |
 | Limited to 9 sounds | low | Grid layout constraint |
 
-### [[projects/web/aloysius-dashboard|aloysius-dashboard]]
+### [[projects/web/aloysius-dashboard|Aloysius Dashboard]]
 
 | Item | Priority | Notes |
 |------|----------|-------|

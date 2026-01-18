@@ -19,18 +19,22 @@ tags:
 
 A web-based walkie talkie application for real-time audio communication.
 
+## Planned Features
+
+- Push-to-talk audio capture
+- Real-time audio streaming
+- Firebase backend for signaling
+- Multi-user channels
+
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| *No decisions documented yet* | - | - |
+*Decisions will be documented as development begins.*
 
 ## Patterns Established
 
-| Pattern | Description | Reusable |
-|---------|-------------|----------|
-| *No patterns established yet* | - | - |
+*Patterns will be documented as they emerge.*
 
 ## Related
 
 - [[projects/web/soundboard|SoundBoard]] - Similar Web Audio API project
+- [[references/testkitchen/typescript-conventions|TypeScript Conventions]]

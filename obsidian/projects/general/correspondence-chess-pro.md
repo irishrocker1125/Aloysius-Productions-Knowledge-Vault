@@ -18,18 +18,21 @@ tags:
 
 A correspondence chess application for playing asynchronous chess games.
 
+## Planned Features
+
+- Asynchronous turn-based gameplay
+- Move notation and history
+- Game invitations and matchmaking
+- Time controls for correspondence play
+
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| *No decisions documented yet* | - | - |
+*Decisions will be documented as development begins.*
 
 ## Patterns Established
 
-| Pattern | Description | Reusable |
-|---------|-------------|----------|
-| *No patterns established yet* | - | - |
+*Patterns will be documented as they emerge.*
 
 ## Related
 
-- [[projects/ios/poker|Poker]] - Similar game project
+- [[projects/ios/poker|Poker]] - Similar game project with AI opponents

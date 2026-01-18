@@ -23,6 +23,15 @@ Technical decisions, patterns, and lessons learned from individual projects.
 - [[projects/web/eliza|Eliza]] - Pattern-matching chatbot CLI
 - [[projects/web/soundboard|SoundBoard]] - Web Audio synthesizer
 - [[projects/web/walkie-talkie|Walkie-Talkie]] - Real-time communication
+- [[projects/web/aloysius-dashboard|Aloysius Dashboard]] - Infrastructure monitoring dashboard
+
+## Infrastructure Projects
+
+- [[projects/infrastructure/aloysiusproductions-ops-core|Ops Core]] - CI/CD, governance, and automation
+
+## General Projects
+
+- [[projects/general/correspondence-chess-pro|Correspondence Chess Pro]] - Asynchronous chess application
 
 ## About This Section
 

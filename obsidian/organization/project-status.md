@@ -14,46 +14,47 @@ source: "docs/organization-overview.md"
 
 Current state of all Aloysius Productions projects.
 
-## Shipped & Complete (5 projects)
+## Shipped & Complete (4 projects)
 
-| Project                  | Version | Platform | Description                                   |
-| ------------------------ | ------- | -------- | --------------------------------------------- |
-| **Eliza**                | v1.0    | Web      | Pattern-matching chatbot (CLI + web)          |
-| **Correspondence Chess** | v1.0    | Web      | Two-player remote chess with text sync        |
-| **MadLibs**              | v1.1    | iOS      | Classic + Creative modes, 20 templates        |
-| **Quest-Forge**          | v1.2    | iOS      | D&D narrative game, 3 scenarios, 4 characters |
-| **GTD Web**              | v1.0    | Web      | Getting Things Done with swipe gestures       |
+| Project         | Version | Platform | Description                                   |
+| --------------- | ------- | -------- | --------------------------------------------- |
+| **Poker**       | v1.1    | iOS      | Texas Hold'em with AI opponents               |
+| **Eliza**       | v1.0    | Web      | Pattern-matching chatbot (CLI + web)          |
+| **MadLibs**     | v1.0    | iOS      | Classic + Creative modes, word game generator |
+| **Quest-Forge** | v1.0    | iOS      | D&D narrative game, 3 scenarios, 4 characters |
 
-## In Active Development (4 projects)
+## In Active Development (3 projects)
 
-| Project           | Progress | Platform | Description                            |
-| ----------------- | -------- | -------- | -------------------------------------- |
-| **Poker**         | 25%      | iOS      | Texas Hold'em with AI opponents        |
-| **SoundBoard**    | Phase 1+ | Web      | Interactive synthesizer (Web Audio)    |
-| **Walkie-Talkie** | v0.1     | Web      | Audio messaging with Firebase          |
-| **GTD iOS**       | v1.0+    | iOS      | Thought capture with voice recognition |
+| Project                | Version | Platform       | Description                              |
+| ---------------------- | ------- | -------------- | ---------------------------------------- |
+| **SoundBoard**         | v0.1    | Web            | Interactive synthesizer (Web Audio)      |
+| **Aloysius Dashboard** | v0.1    | Web            | Infrastructure monitoring dashboard      |
+| **Ops Core**           | v1.0    | Infrastructure | CI/CD, governance, automation            |
 
-## Foundation Stage (1 project)
+## Planned (3 projects)
 
-| Project  | Status     | Platform | Description                |
-| -------- | ---------- | -------- | -------------------------- |
-| **Dice** | Foundation | iOS      | Multi-dice roller for RPGs |
+| Project                    | Status  | Platform | Description                        |
+| -------------------------- | ------- | -------- | ---------------------------------- |
+| **Dice**                   | Planned | iOS      | Multi-dice roller for RPGs         |
+| **Walkie-Talkie**          | Planned | Web      | Real-time audio communication      |
+| **Correspondence Chess Pro** | Planned | General  | Asynchronous chess application     |
 
 ## Infrastructure Components
 
 - **gloriously-awesome-system** - Claude Code meta-prompting system
-- **aloysiusproductions-ops-core** - Governance, runbooks, dashboards
 - **Aloysius family** - Knowledge vault, dashboard, event horizon, research lab, resource grid
 
 ## Key Metrics
 
 | Metric            | Value                   |
 | ----------------- | ----------------------- |
-| Total Projects    | 10+ active              |
-| Shipped Projects  | 5 (50%)                 |
-| iOS Projects      | 5                       |
+| Total Projects    | 10 tracked              |
+| Shipped Projects  | 4 (40%)                 |
+| Active Projects   | 3 (30%)                 |
+| Planned Projects  | 3 (30%)                 |
+| iOS Projects      | 4                       |
 | Web Projects      | 5                       |
-| Lines of Code     | ~10,000 aggregate       |
+| Infrastructure    | 1                       |
 | Planning Coverage | 100% of active projects |
 
 ## What's Working Well
@@ -78,7 +79,7 @@ Current state of all Aloysius Productions projects.
 
 ### 4. Project Completion Rate
 
-- 50% of active projects fully shipped
+- 40% of tracked projects fully shipped
 - Clear version numbering
 - Projects reach "done" state vs perpetual development
 

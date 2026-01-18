@@ -19,18 +19,22 @@ tags:
 
 A dice rolling app for iOS.
 
+## Planned Features
+
+- Multiple dice types (d4, d6, d8, d10, d12, d20)
+- Roll history
+- Custom dice pools
+- Animation and sound feedback
+
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| *No decisions documented yet* | - | - |
+*Decisions will be documented as development begins.*
 
 ## Patterns Established
 
-| Pattern | Description | Reusable |
-|---------|-------------|----------|
-| *No patterns established yet* | - | - |
+*Patterns will be documented as they emerge.*
 
 ## Related
 
 - [[projects/ios/poker|Poker]] - Similar iOS game project
+- [[references/testkitchen/swift-conventions|Swift Conventions]]
