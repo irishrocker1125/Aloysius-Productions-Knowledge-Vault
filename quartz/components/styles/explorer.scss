@@ -29,10 +29,9 @@
 .explorer {
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
-
-  min-height: 1.2rem;
-  flex: 0 1 auto;
+  overflow: hidden;
+  flex: 1 1 0;
+  height: 0; // Force height from flex parent, not content
   &.collapsed {
     flex: 0 1 1.2rem;
     & .fold {
@@ -108,11 +107,20 @@ button.desktop-explorer {
   }
 }
 
-.explorer-content {
+.explorer .explorer-content {
   list-style: none;
-  overflow: hidden;
-  overflow-y: auto;
   margin-top: 0.5rem;
+  flex: 1 1 0;
+  height: 0;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  // Inner ul just displays content, no special overflow handling needed
+  & > ul.overflow.explorer-ul {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
 
   & ul {
     list-style: none;

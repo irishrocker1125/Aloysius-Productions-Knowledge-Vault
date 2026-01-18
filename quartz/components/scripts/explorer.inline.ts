@@ -243,14 +243,15 @@ async function setupExplorer(currentSlug: FullSlug) {
     explorerUl.insertBefore(fragment, explorerUl.firstChild);
 
     // restore explorer scrollTop position if it exists
+    const explorerContent = explorer.querySelector(".explorer-content");
     const scrollTop = sessionStorage.getItem("explorerScrollTop");
-    if (scrollTop) {
-      explorerUl.scrollTop = parseInt(scrollTop);
+    if (scrollTop && explorerContent) {
+      explorerContent.scrollTop = parseInt(scrollTop);
     } else {
       // try to scroll to the active element if it exists
       const activeElement = explorerUl.querySelector(".active");
       if (activeElement) {
-        activeElement.scrollIntoView({ behavior: "smooth" });
+        activeElement.scrollIntoView({ behavior: "instant", block: "nearest" });
       }
     }
 
@@ -285,14 +286,42 @@ async function setupExplorer(currentSlug: FullSlug) {
       icon.addEventListener("click", toggleFolder);
       window.addCleanup(() => icon.removeEventListener("click", toggleFolder));
     }
+
+    // Ensure wheel events scroll the explorer content
+    if (explorerContent) {
+      const handleWheel = (e: WheelEvent) => {
+        const content = explorerContent as HTMLElement;
+        const maxScroll = content.scrollHeight - content.clientHeight;
+        const currentScroll = content.scrollTop;
+
+        // Only handle if there's overflow to scroll
+        if (maxScroll > 0) {
+          // Check if we're at scroll boundaries
+          const atTop = currentScroll <= 0 && e.deltaY < 0;
+          const atBottom = currentScroll >= maxScroll && e.deltaY > 0;
+
+          if (!atTop && !atBottom) {
+            e.preventDefault();
+            content.scrollTop += e.deltaY;
+          }
+        }
+      };
+      explorer.addEventListener("wheel", handleWheel, { passive: false });
+      window.addCleanup(() =>
+        explorer.removeEventListener("wheel", handleWheel),
+      );
+    }
   }
 }
 
 document.addEventListener("prenav", async () => {
   // save explorer scrollTop position
-  const explorer = document.querySelector(".explorer-ul");
-  if (!explorer) return;
-  sessionStorage.setItem("explorerScrollTop", explorer.scrollTop.toString());
+  const explorerContent = document.querySelector(".explorer-content");
+  if (!explorerContent) return;
+  sessionStorage.setItem(
+    "explorerScrollTop",
+    explorerContent.scrollTop.toString(),
+  );
 });
 
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
