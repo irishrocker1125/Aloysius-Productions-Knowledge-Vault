@@ -48,6 +48,7 @@ Core operational infrastructure for Aloysius Productions projects, including CI/
 | GitHub has 13+ rate limit categories | Search API is 30/min, Code Search is 10/min | Track all limits, not just core |
 | CI runs without local workspace | Dashboard showed 11k LOC instead of 147k | Always detect execution context |
 | Incomplete data is worse than stale data | Metrics corruption from partial calculation | Preserve over calculate when uncertain |
+| Manual curation causes data drift | Knowledge Vault had stale project status, ghost references | Implement validation + quarterly audits |
 
 ## Technical Debt
 
