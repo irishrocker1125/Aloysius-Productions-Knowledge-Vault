@@ -351,32 +351,32 @@ async function handleNavEvent(slug: FullSlug) {
   }
 }
 
-let explorerInitialized = false;
-
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  explorerInitialized = true;
   await handleNavEvent(e.detail.url);
 });
 
-// Self-initialize if nav event was missed (race condition protection)
-if (document.readyState === "complete" || document.readyState === "interactive") {
-  // DOM is ready, check if we need to initialize
-  setTimeout(() => {
-    if (!explorerInitialized) {
+// Check if explorer has content rendered
+function isExplorerRendered(): boolean {
+  const explorerUl = document.querySelector(".explorer-ul");
+  return explorerUl !== null && explorerUl.children.length > 0;
+}
+
+// Self-initialize if nav event was missed or failed
+// Use requestAnimationFrame to ensure we check after render cycle
+function ensureExplorerInitialized() {
+  requestAnimationFrame(() => {
+    if (!isExplorerRendered()) {
       const slug = (document.body.dataset.slug ?? "") as FullSlug;
       handleNavEvent(slug);
     }
-  }, 0);
-} else {
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      if (!explorerInitialized) {
-        const slug = (document.body.dataset.slug ?? "") as FullSlug;
-        handleNavEvent(slug);
-      }
-    }, 0);
   });
 }
+
+// Always schedule a check after script loads
+ensureExplorerInitialized();
+
+// Also check after a delay in case of slow initialization
+setTimeout(ensureExplorerInitialized, 100);
 
 window.addEventListener("resize", function () {
   // Desktop explorer opens by default, and it stays open when the window is resized

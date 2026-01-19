@@ -789,28 +789,28 @@ async function handleGraphNav(slug: FullSlug) {
   });
 }
 
-let graphInitialized = false;
-
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  graphInitialized = true;
   await handleGraphNav(e.detail.url);
 });
 
-// Self-initialize if nav event was missed (race condition protection)
-if (document.readyState === "complete" || document.readyState === "interactive") {
-  setTimeout(() => {
-    if (!graphInitialized) {
+// Check if graph has been rendered (has a canvas element)
+function isGraphRendered(): boolean {
+  const graphContainer = document.querySelector(".graph-container");
+  return graphContainer !== null && graphContainer.querySelector("canvas") !== null;
+}
+
+// Self-initialize if nav event was missed or failed
+function ensureGraphInitialized() {
+  requestAnimationFrame(() => {
+    if (!isGraphRendered()) {
       const slug = (document.body.dataset.slug ?? "") as FullSlug;
       handleGraphNav(slug);
     }
-  }, 0);
-} else {
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      if (!graphInitialized) {
-        const slug = (document.body.dataset.slug ?? "") as FullSlug;
-        handleGraphNav(slug);
-      }
-    }, 0);
   });
 }
+
+// Always schedule a check after script loads
+ensureGraphInitialized();
+
+// Also check after a delay in case of slow initialization
+setTimeout(ensureGraphInitialized, 100);
