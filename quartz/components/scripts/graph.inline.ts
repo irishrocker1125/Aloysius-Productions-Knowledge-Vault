@@ -661,12 +661,17 @@ async function handleGraphNav(slug: FullSlug) {
     ...document.getElementsByClassName("global-graph-outer"),
   ] as HTMLElement[];
 
-  // Track current focus state for global graph
-  let globalGraphFocusSlug: SimpleSlug | null = null;
+  // Track navigation history for global graph
+  let graphHistory: SimpleSlug[] = [];
+  let isGlobalView = false;
 
-  async function renderGlobalGraph(focusSlug?: SimpleSlug) {
+  async function renderExpandedGraph(focusSlug?: SimpleSlug, showGlobal: boolean = false) {
     const currentSlug = getFullSlug(window);
-    globalGraphFocusSlug = focusSlug ?? null;
+    const currentSimpleSlug = simplifySlug(currentSlug);
+
+    // Determine what to show
+    isGlobalView = showGlobal;
+    const targetSlug = focusSlug ?? currentSimpleSlug;
 
     for (const container of containers) {
       container.classList.add("active");
@@ -687,24 +692,57 @@ async function handleGraphNav(slug: FullSlug) {
         container.insertBefore(controls, graphContainer);
       }
 
-      // Update controls content based on focus state
-      if (globalGraphFocusSlug) {
+      // Update controls content based on view state
+      if (isGlobalView) {
         controls.innerHTML = `
-          <button class="graph-control-btn graph-back-btn" aria-label="Back to global view">
+          <button class="graph-control-btn graph-back-btn" aria-label="Back to focused view">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
-            Global View
+            Back
           </button>
-          <span class="graph-focus-label">Focused: ${globalGraphFocusSlug}</span>
-        `;
-        const backBtn = controls.querySelector(".graph-back-btn");
-        backBtn?.addEventListener("click", () => renderGlobalGraph());
-      } else {
-        controls.innerHTML = `
           <span class="graph-view-label">Global View</span>
           <span class="graph-hint">Click a node to focus</span>
         `;
+        const backBtn = controls.querySelector(".graph-back-btn");
+        backBtn?.addEventListener("click", () => {
+          const prevSlug = graphHistory.pop();
+          renderExpandedGraph(prevSlug ?? currentSimpleSlug, false);
+        });
+      } else {
+        const canGoBack = graphHistory.length > 0;
+        controls.innerHTML = `
+          ${canGoBack ? `
+            <button class="graph-control-btn graph-back-btn" aria-label="Go back">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Back
+            </button>
+          ` : ''}
+          <span class="graph-focus-label">Focused: ${targetSlug}</span>
+          <button class="graph-control-btn graph-global-btn" aria-label="Show global view">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Global
+          </button>
+        `;
+        if (canGoBack) {
+          const backBtn = controls.querySelector(".graph-back-btn");
+          backBtn?.addEventListener("click", () => {
+            const prevSlug = graphHistory.pop();
+            if (prevSlug) {
+              renderExpandedGraph(prevSlug, false);
+            }
+          });
+        }
+        const globalBtn = controls.querySelector(".graph-global-btn");
+        globalBtn?.addEventListener("click", () => {
+          graphHistory.push(targetSlug);
+          renderExpandedGraph(undefined, true);
+        });
       }
 
       registerEscapeHandler(container, hideGlobalGraph);
@@ -712,14 +750,21 @@ async function handleGraphNav(slug: FullSlug) {
       if (graphContainer) {
         cleanupGlobalGraphs();
 
-        // Handler for clicking nodes in global graph - focus on that node
-        const handleGlobalNodeClick = (nodeId: SimpleSlug) => {
-          renderGlobalGraph(nodeId);
+        // Handler for clicking nodes - focus on that node
+        const handleNodeClick = (nodeId: SimpleSlug) => {
+          if (!isGlobalView) {
+            graphHistory.push(targetSlug);
+          }
+          renderExpandedGraph(nodeId, false);
         };
 
-        // If focusing on a specific node, render with that as center
-        if (focusSlug) {
-          // Render focused view (depth 2 around the focused node)
+        if (isGlobalView) {
+          // Global view - show all nodes
+          globalGraphCleanups.push(
+            await renderGraph(graphContainer, currentSlug, handleNodeClick),
+          );
+        } else {
+          // Focused view - show neighborhood around target
           const focusedConfig = {
             ...JSON.parse(graphContainer.dataset["cfg"]!),
             depth: 2,
@@ -728,8 +773,8 @@ async function handleGraphNav(slug: FullSlug) {
           globalGraphCleanups.push(
             await renderGraph(
               graphContainer,
-              focusSlug as unknown as FullSlug,
-              handleGlobalNodeClick,
+              targetSlug as unknown as FullSlug,
+              handleNodeClick,
             ),
           );
           // Restore original config
@@ -737,10 +782,6 @@ async function handleGraphNav(slug: FullSlug) {
             ...focusedConfig,
             depth: -1,
           });
-        } else {
-          globalGraphCleanups.push(
-            await renderGraph(graphContainer, currentSlug, handleGlobalNodeClick),
-          );
         }
       }
     }
@@ -748,7 +789,8 @@ async function handleGraphNav(slug: FullSlug) {
 
   function hideGlobalGraph() {
     cleanupGlobalGraphs();
-    globalGraphFocusSlug = null;
+    graphHistory = [];
+    isGlobalView = false;
     for (const container of containers) {
       container.classList.remove("active");
       const sidebar = container.closest(".sidebar") as HTMLElement;
@@ -766,18 +808,18 @@ async function handleGraphNav(slug: FullSlug) {
   async function shortcutHandler(e: HTMLElementEventMap["keydown"]) {
     if (e.key === "g" && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
       e.preventDefault();
-      const anyGlobalGraphOpen = containers.some((container) =>
+      const anyGraphOpen = containers.some((container) =>
         container.classList.contains("active"),
       );
-      anyGlobalGraphOpen ? hideGlobalGraph() : renderGlobalGraph();
+      anyGraphOpen ? hideGlobalGraph() : renderExpandedGraph();
     }
   }
 
   const containerIcons = document.getElementsByClassName("global-graph-icon");
   Array.from(containerIcons).forEach((icon) => {
-    icon.addEventListener("click", () => renderGlobalGraph());
+    icon.addEventListener("click", () => renderExpandedGraph());
     window.addCleanup(() =>
-      icon.removeEventListener("click", () => renderGlobalGraph()),
+      icon.removeEventListener("click", () => renderExpandedGraph()),
     );
   });
 
