@@ -831,8 +831,18 @@ async function handleGraphNav(slug: FullSlug) {
   });
 }
 
+// Track initialization state
+let isInitializing = false;
+let hasInitialized = false;
+
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  await handleGraphNav(e.detail.url);
+  isInitializing = true;
+  try {
+    await handleGraphNav(e.detail.url);
+    hasInitialized = true;
+  } finally {
+    isInitializing = false;
+  }
 });
 
 // Check if graph has been rendered (has a canvas element)
@@ -842,17 +852,34 @@ function isGraphRendered(): boolean {
 }
 
 // Self-initialize if nav event was missed or failed
-function ensureGraphInitialized() {
-  requestAnimationFrame(() => {
-    if (!isGraphRendered()) {
-      const slug = (document.body.dataset.slug ?? "") as FullSlug;
-      handleGraphNav(slug);
-    }
-  });
+async function ensureGraphInitialized() {
+  // Don't initialize if already in progress or completed with content
+  if (isInitializing) return;
+  if (hasInitialized && isGraphRendered()) return;
+
+  const slug = (document.body.dataset.slug ?? "") as FullSlug;
+  if (!slug) return; // No slug means page not ready
+
+  isInitializing = true;
+  try {
+    await handleGraphNav(slug);
+    hasInitialized = true;
+  } catch (e) {
+    console.error("Graph initialization failed:", e);
+  } finally {
+    isInitializing = false;
+  }
 }
 
-// Always schedule a check after script loads
-ensureGraphInitialized();
+// Try multiple initialization points to handle various loading scenarios
+// 1. Immediate check via requestAnimationFrame
+requestAnimationFrame(() => ensureGraphInitialized());
 
-// Also check after a delay in case of slow initialization
-setTimeout(ensureGraphInitialized, 100);
+// 2. After short delay
+setTimeout(() => ensureGraphInitialized(), 50);
+
+// 3. After longer delay for slow networks
+setTimeout(() => ensureGraphInitialized(), 200);
+
+// 4. On window load (all resources loaded)
+window.addEventListener("load", () => ensureGraphInitialized());

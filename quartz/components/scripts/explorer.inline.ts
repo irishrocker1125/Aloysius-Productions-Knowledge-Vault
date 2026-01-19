@@ -351,8 +351,18 @@ async function handleNavEvent(slug: FullSlug) {
   }
 }
 
+// Track initialization state
+let isInitializing = false;
+let hasInitialized = false;
+
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  await handleNavEvent(e.detail.url);
+  isInitializing = true;
+  try {
+    await handleNavEvent(e.detail.url);
+    hasInitialized = true;
+  } finally {
+    isInitializing = false;
+  }
 });
 
 // Check if explorer has content rendered
@@ -362,21 +372,37 @@ function isExplorerRendered(): boolean {
 }
 
 // Self-initialize if nav event was missed or failed
-// Use requestAnimationFrame to ensure we check after render cycle
-function ensureExplorerInitialized() {
-  requestAnimationFrame(() => {
-    if (!isExplorerRendered()) {
-      const slug = (document.body.dataset.slug ?? "") as FullSlug;
-      handleNavEvent(slug);
-    }
-  });
+async function ensureExplorerInitialized() {
+  // Don't initialize if already in progress or completed with content
+  if (isInitializing) return;
+  if (hasInitialized && isExplorerRendered()) return;
+
+  const slug = (document.body.dataset.slug ?? "") as FullSlug;
+  if (!slug) return; // No slug means page not ready
+
+  isInitializing = true;
+  try {
+    await handleNavEvent(slug);
+    hasInitialized = true;
+  } catch (e) {
+    console.error("Explorer initialization failed:", e);
+  } finally {
+    isInitializing = false;
+  }
 }
 
-// Always schedule a check after script loads
-ensureExplorerInitialized();
+// Try multiple initialization points to handle various loading scenarios
+// 1. Immediate check via requestAnimationFrame
+requestAnimationFrame(() => ensureExplorerInitialized());
 
-// Also check after a delay in case of slow initialization
-setTimeout(ensureExplorerInitialized, 100);
+// 2. After short delay
+setTimeout(() => ensureExplorerInitialized(), 50);
+
+// 3. After longer delay for slow networks
+setTimeout(() => ensureExplorerInitialized(), 200);
+
+// 4. On window load (all resources loaded)
+window.addEventListener("load", () => ensureExplorerInitialized());
 
 window.addEventListener("resize", function () {
   // Desktop explorer opens by default, and it stays open when the window is resized
