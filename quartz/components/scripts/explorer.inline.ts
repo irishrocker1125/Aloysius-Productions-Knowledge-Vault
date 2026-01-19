@@ -327,10 +327,9 @@ document.addEventListener("prenav", async () => {
   );
 });
 
-document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  const currentSlug = e.detail.url;
+async function handleNavEvent(slug: FullSlug) {
   try {
-    await setupExplorer(currentSlug);
+    await setupExplorer(slug);
   } catch (error) {
     console.error("Failed to setup explorer:", error);
   }
@@ -350,7 +349,34 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
     mobileExplorer.classList.remove("hide-until-loaded");
   }
+}
+
+let explorerInitialized = false;
+
+document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
+  explorerInitialized = true;
+  await handleNavEvent(e.detail.url);
 });
+
+// Self-initialize if nav event was missed (race condition protection)
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  // DOM is ready, check if we need to initialize
+  setTimeout(() => {
+    if (!explorerInitialized) {
+      const slug = (document.body.dataset.slug ?? "") as FullSlug;
+      handleNavEvent(slug);
+    }
+  }, 0);
+} else {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      if (!explorerInitialized) {
+        const slug = (document.body.dataset.slug ?? "") as FullSlug;
+        handleNavEvent(slug);
+      }
+    }, 0);
+  });
+}
 
 window.addEventListener("resize", function () {
   // Desktop explorer opens by default, and it stays open when the window is resized

@@ -74,7 +74,13 @@ type TweenNode = {
   stop: () => void;
 };
 
-async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
+type NodeClickHandler = (nodeId: SimpleSlug) => void;
+
+async function renderGraph(
+  graph: HTMLElement,
+  fullSlug: FullSlug,
+  onNodeClick?: NodeClickHandler,
+) {
   const slug = simplifySlug(fullSlug);
   const visited = getVisited();
   removeAllChildren(graph);
@@ -523,16 +529,24 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
             const node = graphData.nodes.find(
               (n) => n.id === event.subject.id,
             ) as NodeData;
-            const targ = resolveRelative(fullSlug, node.id);
-            window.spaNavigate(new URL(targ, window.location.toString()));
+            if (onNodeClick) {
+              onNodeClick(node.id);
+            } else {
+              const targ = resolveRelative(fullSlug, node.id);
+              window.spaNavigate(new URL(targ, window.location.toString()));
+            }
           }
         }),
     );
   } else {
     for (const node of nodeRenderData) {
       node.gfx.on("click", () => {
-        const targ = resolveRelative(fullSlug, node.simulationData.id);
-        window.spaNavigate(new URL(targ, window.location.toString()));
+        if (onNodeClick) {
+          onNodeClick(node.simulationData.id);
+        } else {
+          const targ = resolveRelative(fullSlug, node.simulationData.id);
+          window.spaNavigate(new URL(targ, window.location.toString()));
+        }
       });
     }
   }
@@ -619,8 +633,7 @@ function cleanupGlobalGraphs() {
   globalGraphCleanups = [];
 }
 
-document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
-  const slug = e.detail.url;
+async function handleGraphNav(slug: FullSlug) {
   addToVisited(simplifySlug(slug));
 
   async function renderLocalGraph() {
@@ -647,8 +660,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const containers = [
     ...document.getElementsByClassName("global-graph-outer"),
   ] as HTMLElement[];
-  async function renderGlobalGraph() {
-    const slug = getFullSlug(window);
+
+  // Track current focus state for global graph
+  let globalGraphFocusSlug: SimpleSlug | null = null;
+
+  async function renderGlobalGraph(focusSlug?: SimpleSlug) {
+    const currentSlug = getFullSlug(window);
+    globalGraphFocusSlug = focusSlug ?? null;
+
     for (const container of containers) {
       container.classList.add("active");
       const sidebar = container.closest(".sidebar") as HTMLElement;
@@ -659,20 +678,87 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       const graphContainer = container.querySelector(
         ".global-graph-container",
       ) as HTMLElement;
+
+      // Update or create controls
+      let controls = container.querySelector(".graph-controls") as HTMLElement;
+      if (!controls) {
+        controls = document.createElement("div");
+        controls.className = "graph-controls";
+        container.insertBefore(controls, graphContainer);
+      }
+
+      // Update controls content based on focus state
+      if (globalGraphFocusSlug) {
+        controls.innerHTML = `
+          <button class="graph-control-btn graph-back-btn" aria-label="Back to global view">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Global View
+          </button>
+          <span class="graph-focus-label">Focused: ${globalGraphFocusSlug}</span>
+        `;
+        const backBtn = controls.querySelector(".graph-back-btn");
+        backBtn?.addEventListener("click", () => renderGlobalGraph());
+      } else {
+        controls.innerHTML = `
+          <span class="graph-view-label">Global View</span>
+          <span class="graph-hint">Click a node to focus</span>
+        `;
+      }
+
       registerEscapeHandler(container, hideGlobalGraph);
+
       if (graphContainer) {
-        globalGraphCleanups.push(await renderGraph(graphContainer, slug));
+        cleanupGlobalGraphs();
+
+        // Handler for clicking nodes in global graph - focus on that node
+        const handleGlobalNodeClick = (nodeId: SimpleSlug) => {
+          renderGlobalGraph(nodeId);
+        };
+
+        // If focusing on a specific node, render with that as center
+        if (focusSlug) {
+          // Render focused view (depth 2 around the focused node)
+          const focusedConfig = {
+            ...JSON.parse(graphContainer.dataset["cfg"]!),
+            depth: 2,
+          };
+          graphContainer.dataset["cfg"] = JSON.stringify(focusedConfig);
+          globalGraphCleanups.push(
+            await renderGraph(
+              graphContainer,
+              focusSlug as unknown as FullSlug,
+              handleGlobalNodeClick,
+            ),
+          );
+          // Restore original config
+          graphContainer.dataset["cfg"] = JSON.stringify({
+            ...focusedConfig,
+            depth: -1,
+          });
+        } else {
+          globalGraphCleanups.push(
+            await renderGraph(graphContainer, currentSlug, handleGlobalNodeClick),
+          );
+        }
       }
     }
   }
 
   function hideGlobalGraph() {
     cleanupGlobalGraphs();
+    globalGraphFocusSlug = null;
     for (const container of containers) {
       container.classList.remove("active");
       const sidebar = container.closest(".sidebar") as HTMLElement;
       if (sidebar) {
         sidebar.style.zIndex = "";
+      }
+      // Remove controls when hiding
+      const controls = container.querySelector(".graph-controls");
+      if (controls) {
+        controls.remove();
       }
     }
   }
@@ -689,9 +775,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   const containerIcons = document.getElementsByClassName("global-graph-icon");
   Array.from(containerIcons).forEach((icon) => {
-    icon.addEventListener("click", renderGlobalGraph);
+    icon.addEventListener("click", () => renderGlobalGraph());
     window.addCleanup(() =>
-      icon.removeEventListener("click", renderGlobalGraph),
+      icon.removeEventListener("click", () => renderGlobalGraph()),
     );
   });
 
@@ -701,4 +787,30 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     cleanupLocalGraphs();
     cleanupGlobalGraphs();
   });
+}
+
+let graphInitialized = false;
+
+document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
+  graphInitialized = true;
+  await handleGraphNav(e.detail.url);
 });
+
+// Self-initialize if nav event was missed (race condition protection)
+if (document.readyState === "complete" || document.readyState === "interactive") {
+  setTimeout(() => {
+    if (!graphInitialized) {
+      const slug = (document.body.dataset.slug ?? "") as FullSlug;
+      handleGraphNav(slug);
+    }
+  }, 0);
+} else {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      if (!graphInitialized) {
+        const slug = (document.body.dataset.slug ?? "") as FullSlug;
+        handleGraphNav(slug);
+      }
+    }, 0);
+  });
+}
